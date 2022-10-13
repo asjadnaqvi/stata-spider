@@ -1,0 +1,26 @@
+v 1.0
+d {bf:SPIDER}: A Stata package for spider plots.
+d See {bf:help spider} after installation.
+d
+d Requires: Stata version 15 or higher.
+d
+d KW: Stata
+d KW: graphs
+d KW: spider plot
+d
+d
+d Distribution-Date: 20221013
+d
+d This  version: 13 Oct 2022
+d First version: 13 Oct 2022
+d License: MIT
+d
+d Author: Asjad Naqvi (asjadnaqvi@gmail.com)
+d
+f spider.ado
+f spider.sthlp
+
+
+
+
+
