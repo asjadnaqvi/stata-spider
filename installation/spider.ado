@@ -232,7 +232,14 @@ preserve
 	if "`msymbol'" == "" local msymbol circle
 	if "`msize'"   == "" local msize   = 0.3
 	if "`mlwidth'" == "" local mlwidth = 0.3
-	if "`palette'" == "" local palette tableau
+	if "`palette'" == "" {
+		local palette tableau
+	}
+	else {
+		tokenize "`palette'", p(",")
+		local palette  `1'
+		local poptions `3'
+	}
 	
 	forval i = 1/`length' {
 	
@@ -240,7 +247,7 @@ preserve
 	
 		local varn = "``i''"
 		
-		colorpalette `palette', n(`length') nograph
+		colorpalette `palette', nograph `poptions'
 		
 		if "`smooth'" == "" {
 			local spider  `spider'  (area y_`varn'     x_`varn'    , nodropbase fi(100) fcolor("`r(p`i')'%`alpha'") lc("`r(p`i')'") lw(`lwidth')) ||
@@ -248,10 +255,11 @@ preserve
 		}
 		else {
 			local spider  `spider'  (area y_`varn'_pts x_`varn'_pts, nodropbase fi(100) fcolor("`r(p`i')'%`alpha'") lc("`r(p`i')'") lw(`lwidth')) ||
+			
 		}
 		
-		local spider2 `spider2' (scatter y_`varn' x_`varn', msize(`msize') mc("`r(p`i')'") msymbol("`msymbol'") mlwidth(`mlwidth')) || 
 		
+		local spider2 `spider2' (scatter y_`varn' x_`varn', msize(`msize') mc("`r(p`i')'") msymbol("`msymbol'") mlwidth(`mlwidth')) || 
 		
 		
 	}
