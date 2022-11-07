@@ -450,7 +450,7 @@ restore
 	cap confirm var _id
 	if _rc!=0 gen _id = .
 	merge m:1 _id using `mysplines'	
-	drop _m
+	cap drop _m
 
 	
 end
