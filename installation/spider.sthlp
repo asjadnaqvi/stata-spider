@@ -39,8 +39,10 @@ Default value is {it:5} or 5% transparency.{p_end}
 
 {p2coldent : {opt ro:tate(num)}}Rotate the graph in degrees. The default value is {it:30} or 30 degrees to prevent overlab with range values.{p_end}
 
-{p2coldent : {opt smooth(num)}}This option allows users to smooth out the spider plots. It can take on values between [0,1], 
-where 0 = tighter curves and 1 = wider curves. A value of 0.5 is a reasonable middle ground.{p_end}
+{p2coldent : {opt smooth(num)}}This option allows users to smooth out the spider plots using splines. It can take on values between [0,1] 
+where 0 = tighter curves and 1 = wider curves. A value of 0.5 is a reasonable middle ground.
+If the points are close to each other or there are large data spikes, then the smoothing might result in "twisting" or creating a loop for the splines.
+In this case, it is advised to use a smaller {opt smooth()}} value, or extend the range of the circles so points are reasonable better spaced.{p_end}
 
 {p2coldent : {opt palette(name)}}Color name is any named scheme defined in the {stata help colorpalette:colorpalette} package. Default is {stata colorpalette tableau:{it:tableau}}.{p_end}
 

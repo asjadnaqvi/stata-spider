@@ -1,7 +1,7 @@
 ![StataMin](https://img.shields.io/badge/stata-2015-blue) ![issues](https://img.shields.io/github/issues/asjadnaqvi/stata-spider) ![license](https://img.shields.io/github/license/asjadnaqvi/stata-spider) ![Stars](https://img.shields.io/github/stars/asjadnaqvi/stata-spider) ![version](https://img.shields.io/github/v/release/asjadnaqvi/stata-spider) ![release](https://img.shields.io/github/release-date/asjadnaqvi/stata-spider)
 
 
-# spider v1.0 (beta)
+# spider v1.0
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -210,10 +210,16 @@ spider index*, over(policy) ra(0.1 0.7) cuts(4) raformat(%5.1f) ralabs(2) smooth
 Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to report errors, feature enhancements, and/or other requests. 
 
 
+## Acknowledgements
+
+José Damas helped identify several issues with the first release.
+
+
 ## Versions
 
 **v1.0 (13 October 2022)**
-- First release
+- First release. 
+
 
 
 

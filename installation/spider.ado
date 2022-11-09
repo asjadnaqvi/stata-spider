@@ -49,6 +49,8 @@ qui {
 preserve		
 	keep if `touse'
 	
+	keep `varlist' `over'
+	
 	local length : word count `varlist'
 	
 	cap confirm numeric var `over'
@@ -449,6 +451,7 @@ restore
 
 	cap confirm var _id
 	if _rc!=0 gen _id = .
+	cap drop _m
 	merge m:1 _id using `mysplines'	
 	cap drop _m
 
