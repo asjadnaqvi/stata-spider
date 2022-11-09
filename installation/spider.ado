@@ -126,6 +126,7 @@ preserve
 	
 		if "`smooth'" != "" {
 			foreach x of varlist `varlist' {
+				cap drop _m
 				smoother y_`x' x_`x', rho(`smooth')		
 				ren Cx x_`x'_pts
 				ren Cy y_`x'_pts
