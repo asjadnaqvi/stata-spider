@@ -12,9 +12,9 @@ This package provides the ability to draw spiders Stata. It is based on the [Spi
 
 The package can be installed via SSC or GitHub. The GitHub version, *might* be more recent due to bug fixes, feature updates etc, and *may* contain syntax improvements and changes in *default* values. See version numbers below. Eventually the GitHub version is published on SSC.
 
-The SSC version ():
+The SSC version (**v1.0**):
 ```
-coming soon!
+ssc install spider, replace
 ```
 
 Or it can be installed from GitHub (**v1.0**):
