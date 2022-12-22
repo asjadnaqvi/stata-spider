@@ -1,6 +1,8 @@
-*! spider v1.0 13 Oct 2022. Beta release.
+*! spider v1.1 22 Dec 2022. Minor fixes.
 *! Asjad Naqvi 
 
+* v1.1 22 Dec 2022. Minor fixes.
+* v1.0 13 Oct 2022. Beta release.
 
 **********************************
 * Step-by-step guide on Medium   *
@@ -17,17 +19,17 @@ program spider, sortpreserve
 version 15
  
 	syntax varlist(numeric) [if] [in], over(varname) ///
-		[ alpha(real 5) ROtate(real 30) DISPLACELab(real 15) DISPLACESpike(real 2)  palette(string) 										] ///   	
+		[ alpha(real 5) ROtate(real 30) DISPLACELab(real 15) DISPLACESpike(real 2)  palette(string) 				] ///   	
 		[ RAnge(numlist min=2 max=2) cuts(real 6) smooth(numlist max=1 >=0 <=1) raformat(string)  RALABSize(string) ] ///
 		[ LWidth(string) MSYMbol(string) MSize(string) MLWIDth(string)  											] /// // spider properties
 		[ CColor(string) CWidth(string)	SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
 		[ legend(passthru) title(passthru) subtitle(passthru) note(passthru) scheme(passthru) name(passthru)		] 
 		
 		// TODO: 
-		// 	ROTATELABel: allow label rotations
-		// 	POLYgon    : replace circles with polygons
-		//  legend(passthru) not working. If labels have spaces, it breaks down. Check and fix.
-		
+		// ROTATELABel: allow label rotations
+		// POLYgon    : replace circles with polygons
+		// legend(passthru) not working. If labels have spaces, it breaks down. Check and fix.
+		// add a by() option for long data
 		
 	// check dependencies
 	cap findfile colorpalette.ado
@@ -39,7 +41,7 @@ version 15
 	
 	cap findfile labmask.ado
 	if _rc != 0 {
-		qui ssc install labutil, replace // sneaky install ;)
+		qui ssc install labutil, replace 
 	}		
 	
 	marksample touse, strok
@@ -297,7 +299,7 @@ preserve
 	//   final graph	//
 	//////////////////////
 	
-	local axisr = 100 * (1.2)
+	local axisr = 100 * (1.3)
 	if "`ralabsize'" == "" local ralabsize = 1.8
 	
 
@@ -452,9 +454,9 @@ restore
 
 	cap confirm var _id
 	if _rc!=0 gen _id = .
-	cap drop _m
+	cap drop _merge
 	merge m:1 _id using `mysplines'	
-	cap drop _m
+	cap drop _merge
 
 	
 end

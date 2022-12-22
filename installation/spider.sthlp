@@ -1,7 +1,7 @@
 {smcl}
-{* 13October2022}{...}
+{* 22December2022}{...}
 {hi:help spider}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.0 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.1 (GitHub)}}
 
 {hline}
 
@@ -34,7 +34,7 @@ The command is still {it:beta} and is subject to change and improvements. Please
 The groups are determined by the {opt over()} variable. If there are more than one observations per {opt over()} variable, the command will collapse and average the data.
 So make sure to control the data before using the {cmd:spider} command. See examples below.{p_end}
 
-{p2coldent : {opt alpha(numeric)}}The transparency control of the spider area fills. The value ranges from 0-100, where 0 is no fill and 100 is fully filled.
+{p2coldent : {opt alpha(num)}}The transparency control of the spider area fills. The value ranges from 0-100, where 0 is no fill and 100 is fully filled.
 Default value is {it:5} or 5% transparency.{p_end}
 
 {p2coldent : {opt ro:tate(num)}}Rotate the graph in degrees. The default value is {it:30} or 30 degrees to prevent overlab with range values.{p_end}
@@ -110,7 +110,7 @@ Even if you have these installed, it is highly recommended to update the depende
 
 {title:Examples}
 
-See {browse "https://github.com/asjadnaqvi/spider":GitHub} for examples.
+See {browse "https://github.com/asjadnaqvi/stata-spider":GitHub} for examples.
 
 
 
@@ -123,10 +123,10 @@ See {browse "https://github.com/asjadnaqvi/spider":GitHub} for examples.
 
 {title:Package details}
 
-Version      : {bf:spider} v1.0
-This release : 13 Oct 2022
-First release: 13 Oct 2021
-Repository   : {browse "https://github.com/asjadnaqvi/spider":GitHub}
+Version      : {bf:spider} v1.1
+This release : 22 Dec 2022
+First release: 13 Oct 2022
+Repository   : {browse "https://github.com/asjadnaqvi/stata-spider":GitHub}
 Keywords     : Stata, graph, spider plot
 License      : {browse "https://opensource.org/licenses/MIT":MIT}
 
@@ -147,3 +147,6 @@ Please submit bugs, errors, feature requests on {browse "https://github.com/asja
 
 {p 4 8 2}Jann, B. (2018). {browse "https://www.stata-journal.com/article.html?article=gr0075":Color palettes for Stata graphics}. The Stata Journal 18(4): 765-785.
 
+{psee}
+    {helpb sunburst}, {helpb sankey}, {helpb alluvial}, {helpb circlebar}, {helpb spider}, {helpb treemap}, {helpb circlepack}, {helpb arcplot},
+	{helpb marimekko}, {helpb bimap}, {helpb joyplot}, {helpb streamplot}, {helpb delaunay}, {helpb clipgeo},  {helpb schemepack}
