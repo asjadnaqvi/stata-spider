@@ -317,7 +317,7 @@ preserve
 							xscale(off) yscale(off)	///
 							xlabel(, nogrid) ylabel(, nogrid) ///
 							`legend' ///
-							`title' `subtitle' `note' `scheme' 
+							`title' `subtitle' `note' `scheme' `name'
 								
 									
 			
