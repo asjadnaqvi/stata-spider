@@ -49,7 +49,7 @@ graph set window fontface "Arial Narrow"
 
 ## Syntax
 
-The syntax for v1.1 is as follows:
+The syntax for v1.2 is as follows:
 
 ```
 spider varlist [if] [in], over(cat var) 
