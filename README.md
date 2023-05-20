@@ -1,7 +1,7 @@
 ![StataMin](https://img.shields.io/badge/stata-2015-blue) ![issues](https://img.shields.io/github/issues/asjadnaqvi/stata-spider) ![license](https://img.shields.io/github/license/asjadnaqvi/stata-spider) ![Stars](https://img.shields.io/github/stars/asjadnaqvi/stata-spider) ![version](https://img.shields.io/github/v/release/asjadnaqvi/stata-spider) ![release](https://img.shields.io/github/release-date/asjadnaqvi/stata-spider)
 
 
-# spider v1.1
+# spider v1.2
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -15,7 +15,7 @@ The SSC version (**v1.1**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.1**):
+Or it can be installed from GitHub (**v1.2**):
 
 ```
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -52,14 +52,14 @@ graph set window fontface "Arial Narrow"
 The syntax for v1.1 is as follows:
 
 ```
-spider variables [if] [in], over(categories) 
+spider varlist [if] [in], over(cat var) 
                 [ alpha(num 0-100) rotate(num) smooth(num 0-1)  palette(str)
-                  range(val1 val2) cuts(num) raformat(fmt) ralabsize(str) 
-                  lwidth(str) msymbol(str) msize(str) mlwidth(str)
-                  legend(str) displacelab(num) displacespike(num)
+                  range(val1 val2) cuts(num) raformat(fmt) ralabsize(str) lwidth(str) msymbol(str) 
+                  msize(str) mlwidth(str) displacelab(num) displacespike(num) 
                   ccolor(str) cwidth(str) scolor(str) swidth(str) slabsize(str)
-                  title(str) subtitle(str) note(str) scheme(str) name(str) 
-				 ]
+                  nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num) xsize(num) ysize(num)
+                  title(str) subtitle(str) note(str) scheme(str) name(str) ]
+
 ```
 
 See the help file `help spider` for details.
@@ -208,6 +208,11 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 
 ## Versions
+
+**v1.2 (20 May 2023)**
+- Several legend options added (requested by Marc Kaulisch). These include `nolegend`, `legendpos()`, `legendsize()`, `legendcol()`.
+- `xsize()` and `ysize()` added to allow users to control the dimensions.
+- Minor code cleanups.
 
 **v1.1 (24 Dec 2022)**
 - Fixed some bugs.
