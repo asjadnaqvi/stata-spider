@@ -157,7 +157,7 @@ spider index*, over(policy) ra(10 80) cuts(8) smooth(0.5)
 spider index*, over(policy) ra(10 80) cuts(8) smooth(1)
 ```
 
-<img src="/figures/spider7_1.png" height="200"><img src="/figures/spider7_2.png" height="200"><img src="/figures/spider7_3.png" height="200">
+<img src="/figures/spider7_1.png" height="220"><img src="/figures/spider7_2.png" height="220"><img src="/figures/spider7_3.png" height="220">
 
 ### Palettes
 
@@ -168,10 +168,20 @@ spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) palette(tol vibrant) l
 <img src="/figures/spider8_1.png" height="600">
 
 ```
-spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) palette(CET C1) lw(0.4) ms(0.6) alpha(2)
+spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) palette(carto Bold) lw(0.4) ms(0.6) alpha(2)
 ```
 
 <img src="/figures/spider8_2.png" height="600">
+
+
+Pass specific colors:
+
+```
+spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) palette(CET C1, select(3 5 8 11)) lw(0.4) ms(0.6) alpha(2)
+```
+
+<img src="/figures/spider8_3.png" height="600">
+
 
 ### Customize circles and rays
 
@@ -193,6 +203,21 @@ spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) cc(eltblue) cw(0.05) s
 ```
 
 <img src="/figures/spider9_3.png" height="600">
+
+### Legends and custom dimensions (v1.2)
+
+```
+spider index*, over(policy) xsize(4) ysize(3)
+```
+
+<img src="/figures/spider9_4.png" height="600">
+
+```
+spider index*, over(policy) xsize(4) ysize(3) legpos(3) legcol(1)
+```
+
+<img src="/figures/spider9_5.png" height="600">
+
 
 ### Try a different scaling
 
@@ -218,6 +243,7 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 - Several legend options added (requested by Marc Kaulisch). These include `nolegend`, `legendpos()`, `legendsize()`, `legendcol()`.
 - `xsize()` and `ysize()` added to allow users to control the dimensions.
 - Minor code cleanups.
+- Help file cleanup.
 
 **v1.1 (24 Dec 2022)**
 - Fixed some bugs.
