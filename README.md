@@ -157,7 +157,7 @@ spider index*, over(policy) ra(10 80) cuts(8) smooth(0.5)
 spider index*, over(policy) ra(10 80) cuts(8) smooth(1)
 ```
 
-<img src="/figures/spider7_1.png" height="220"><img src="/figures/spider7_2.png" height="220"><img src="/figures/spider7_3.png" height="220">
+<img src="/figures/spider7_1.png" height="250"><img src="/figures/spider7_2.png" height="250"><img src="/figures/spider7_3.png" height="250">
 
 ### Palettes
 
