@@ -1,9 +1,10 @@
-*! spider v1.2 (20 May 2023)
+*! spider v1.21 (10 June 2023)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
-* v1.2 (20 May 2023): Major fixes to the legend.
-* v1.1 (22 Dec 2022): Minor fixes.
-* v1.0 (13 Oct 2022): Beta release.
+* v1.21 (10 Jun 2023): Options added: ralabcolor() ralabangle().
+* v1.2  (20 May 2023): Major fixes to the legend.
+* v1.1  (22 Dec 2022): Minor fixes.
+* v1.0  (13 Oct 2022): Beta release.
 
 **********************************
 * Step-by-step guide on Medium   *
@@ -25,7 +26,8 @@ version 15
 		[ LWidth(string) MSYMbol(string) MSize(string) MLWIDth(string)  											] /// // spider properties
 		[ CColor(string) CWidth(string)	SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
 		[ title(passthru) subtitle(passthru) note(passthru) scheme(passthru) name(passthru)		] /// 
-		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 5) LEGSize(real 2.2) xsize(real 1) ysize(real 1) ]  // v1.2 updates.
+		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 5) LEGSize(real 2.2) xsize(real 1) ysize(real 1) ] ///  // v1.2 updates.
+		[ RALABColor(string) RALABAngle(string) ]  // v1.21 options
 		
 		// TODO: 
 		// ROTATELABel: allow label rotations
@@ -305,8 +307,9 @@ preserve
 	//////////////////////
 	
 	local axisr = 100 * (1.3)
-	if "`ralabsize'" == "" local ralabsize = 1.8
-	
+	if "`ralabsize'"  == "" local ralabsize = 1.8
+	if "`ralabcolor'" == "" local ralabcolor black
+	if "`ralabangle'" == "" local ralabangle 0
 
     twoway	///
 			`circle' 	///
@@ -314,7 +317,7 @@ preserve
 			`spider'	///
 			`spider2'	///
 			`labs' 		///
-			(scatter yvar xvar, mc(none) mlab(xlab) mlabpos(0) mlabsize(`ralabsize'))  ///
+			(scatter yvar xvar, mc(none) mlab(xlab) mlabpos(0) mlabsize(`ralabsize') mlabcolor(`ralabcolor') mlabangle(`ralabangle') )  ///
 						,    ///
 						aspect(1) xsize(`xsize') ysize(`ysize') ///	
 						xlabel(-`axisr' `axisr') ///

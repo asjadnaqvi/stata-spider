@@ -6,7 +6,7 @@
 
 ---
 
-# spider v1.2
+# spider v1.21
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -20,7 +20,7 @@ The SSC version (**v1.1**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.2**):
+Or it can be installed from GitHub (**v1.21**):
 
 ```
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -54,17 +54,17 @@ graph set window fontface "Arial Narrow"
 
 ## Syntax
 
-The syntax for v1.2 is as follows:
+The syntax for v1.21 is as follows:
 
 ```
 spider varlist [if] [in], over(cat var) 
                 [ alpha(num 0-100) rotate(num) smooth(num 0-1)  palette(str)
-                  range(val1 val2) cuts(num) raformat(fmt) ralabsize(str) lwidth(str) msymbol(str) 
+                  range(val1 val2) cuts(num) lwidth(str) msymbol(str)
+                  raformat(fmt) ralabsize(str) ralabcolor(str) ralabangle(str) 
                   msize(str) mlwidth(str) displacelab(num) displacespike(num) 
                   ccolor(str) cwidth(str) scolor(str) swidth(str) slabsize(str)
                   nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num) xsize(num) ysize(num)
                   title(str) subtitle(str) note(str) scheme(str) name(str) ]
-
 ```
 
 See the help file `help spider` for details.
@@ -231,6 +231,14 @@ spider index*, over(policy) ra(0.1 0.7) cuts(4) raformat(%5.1f) ralabs(2) smooth
 
 <img src="/figures/spider10.png" height="600">
 
+### Range label options (v1.21)
+
+```
+spider index* if year==2021, over(policy) msym(Oh) lw(0.4) ms(0.4) ra(0 100) ralabc(blue) ralabs(2) ralaba(45)
+```
+
+<img src="/figures/spider11.png" height="600">
+
 
 ## Feedback
 
@@ -238,6 +246,9 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 
 ## Change log
+
+**v1.21 (10 Jun 2023)**
+- Two options added for range labels: `ralabcolor()`, `ralabangle()`.
 
 **v1.2 (20 May 2023)**
 - Several legend options added (requested by Marc Kaulisch). These include `nolegend`, `legendpos()`, `legendsize()`, `legendcol()`.

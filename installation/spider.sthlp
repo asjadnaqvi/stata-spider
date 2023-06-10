@@ -1,7 +1,7 @@
 {smcl}
-{* 20May2023}{...}
+{* 10Jun2023}{...}
 {hi:help spider}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.2 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.21 (GitHub)}}
 
 {hline}
 
@@ -15,7 +15,8 @@ The command is based on the following guide on Medium: {browse "https://medium.c
 
 {cmd:spider} {it:varlist} {ifin}, {cmd:over}({it:cat var}) 
                 {cmd:[} {cmd:alpha}({it:num 0-100}) {cmdab:ro:tate}({it:num}) {cmd:smooth}({it:num 0-1})  {cmd:palette}({it:str})
-                  {cmdab:ra:nge}({it:val1 val2}) {cmd:cuts}({it:num}) {cmd:raformat}({it:fmt}) {cmdab:ralabs:ize}({it:str}) {cmdab:lw:idth}({it:str}) {cmdab:msym:bol}({it:str}) 
+                  {cmdab:ra:nge}({it:val1 val2}) {cmd:cuts}({it:num}) {cmdab:lw:idth}({it:str}) {cmdab:msym:bol}({it:str})
+                  {cmd:raformat}({it:fmt}) {cmdab:ralabs:ize}({it:str}) {cmdab:ralabc:olor}({it:str}) {cmdab:ralaba:ngle}({it:str}) 
                   {cmdab:ms:ize}({it:str}) {cmdab:mlw:idth}({it:str}) {cmdab:displacel:ab}({it:num}) {cmdab:displaces:pike}({it:num}) 
                   {cmdab:cc:olor}({it:str}) {cmdab:cw:idth}({it:str}) {cmdab:sc:olor}({it:str}) {cmdab:sw:idth}({it:str}) {cmdab:slabs:ize}({it:str})
                   {cmdab:noleg:end} {cmdab:legpos:iton}({it:num}) {cmdab:legpos:iton}({it:num}) {cmdab:legcol:umns}({it:num}) {cmdab:legs:ize}({it:num}) {cmd:xsize}({it:num}) {cmd:ysize}({it:num})
@@ -58,6 +59,10 @@ Please keep this in mind when defining this option.{p_end}
 If your data ranges has decimal values, then it is advised to change the display to a reasonable format.{p_end}
 
 {p2coldent : {opt ralabs:ize(str)}}The size of the range labels. The default format is {opt ralabs(1.8)}.{p_end}
+
+{p2coldent : {opt ralabc:olor(str)}}The color of the range labels. The default format is {opt ralabc(black)}.{p_end}
+
+{p2coldent : {opt ralaba:ngle(str)}}The angle of the range labels. The default format is {opt ralaba(0)} for horizontal.{p_end}
 
 {p2coldent : {opt lw:idth(num)}}The outline width of the spider area fill. Default is {opt lw(0.3)}.
 Area fill lines can be turned off by defining {opt lw(none)}.{p_end}
@@ -122,8 +127,8 @@ See {browse "https://github.com/asjadnaqvi/stata-spider":GitHub} for examples.
 
 {title:Package details}
 
-Version      : {bf:spider} v1.2
-This release : 20 May 2023
+Version      : {bf:spider} v1.21
+This release : 10 Jun 2023
 First release: 13 Oct 2022
 Repository   : {browse "https://github.com/asjadnaqvi/stata-spider":GitHub}
 Keywords     : Stata, graph, spider plot
