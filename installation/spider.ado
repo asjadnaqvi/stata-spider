@@ -1,6 +1,7 @@
-*! spider v1.21 (10 June 2023)
+*! spider v1.22 (03 Jul 2023)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.22 (03 Jul 2023): Fixed bug with numerical variables not passing correctly.
 * v1.21 (10 Jun 2023): Options added: ralabcolor() ralabangle().
 * v1.2  (20 May 2023): Major fixes to the legend.
 * v1.1  (22 Dec 2022): Minor fixes.
@@ -69,12 +70,18 @@ preserve
 	else {
 		egen   over2 = group(`over')
 		
-		if "`: value label `stack''" != "" {
+		if "`: value label `over''" != "" {
+			
+			tempvar tempov
 			decode `over', gen(`tempov')		
 			labmask over2, val(`tempov')
+			
 		}
 		local over over2 
 	}	
+	
+	
+	
 	
 	collapse (mean) `varlist', by(`over')
 	
@@ -329,7 +336,7 @@ preserve
 								
 									
 			
-	
+	*/
 		
 restore						
 }
@@ -345,7 +352,7 @@ end
 
 cap program drop smoother
 
-program smoother // , sortpreserve
+program smoother , sortpreserve
 
 version 15
  

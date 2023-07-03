@@ -9,8 +9,8 @@
 
 ---
 
-# spider v1.21
-(10 Jun 2023)
+# spider v1.22
+(03 Jul 2023)
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -24,7 +24,7 @@ The SSC version (**v1.21**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.21**):
+Or it can be installed from GitHub (**v1.22**):
 
 ```
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -58,7 +58,7 @@ graph set window fontface "Arial Narrow"
 
 ## Syntax
 
-The syntax for v1.21 is as follows:
+The syntax for v1.22 is as follows:
 
 ```
 spider varlist [if] [in], over(cat var) 
@@ -67,8 +67,8 @@ spider varlist [if] [in], over(cat var)
                   raformat(fmt) ralabsize(str) ralabcolor(str) ralabangle(str) 
                   msize(str) mlwidth(str) displacelab(num) displacespike(num) 
                   ccolor(str) cwidth(str) scolor(str) swidth(str) slabsize(str)
-                  nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num) xsize(num) ysize(num)
-                  title(str) subtitle(str) note(str) scheme(str) name(str) ]
+                  nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num)
+                  title(str) subtitle(str) note(str) scheme(str) xsize(num) ysize(num) name(str) ]
 ```
 
 See the help file `help spider` for details.
@@ -250,6 +250,9 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 
 ## Change log
+
+**v1.22 (07 Jul 2023)**
+- Fixed a bug where labeled `over()` categories were not passing correctly (reported by Kamala Kaghoma).
 
 **v1.21 (10 Jun 2023)**
 - Two options added for range labels: `ralabcolor()`, `ralabangle()`.
