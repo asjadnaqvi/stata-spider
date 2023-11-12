@@ -1,6 +1,7 @@
-*! spider v1.22 (03 Jul 2023)
+*! spider v1.23 (12 Nov 2023)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.23 (12 Nov 2023): Added slabcolor(), saving()
 * v1.22 (03 Jul 2023): Fixed bug with numerical variables not passing correctly.
 * v1.21 (10 Jun 2023): Options added: ralabcolor() ralabangle().
 * v1.2  (20 May 2023): Major fixes to the legend.
@@ -26,9 +27,9 @@ version 15
 		[ RAnge(numlist min=2 max=2) cuts(real 6) smooth(numlist max=1 >=0 <=1) raformat(string)  RALABSize(string) ] ///
 		[ LWidth(string) MSYMbol(string) MSize(string) MLWIDth(string)  											] /// // spider properties
 		[ CColor(string) CWidth(string)	SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
-		[ title(passthru) subtitle(passthru) note(passthru) scheme(passthru) name(passthru)		] /// 
+		[ title(passthru) subtitle(passthru) note(passthru) scheme(passthru) name(passthru) saving(passthru)		] /// 
 		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 5) LEGSize(real 2.2) xsize(real 1) ysize(real 1) ] ///  // v1.2 updates.
-		[ RALABColor(string) RALABAngle(string) ]  // v1.21 options
+		[ RALABColor(string) RALABAngle(string) SLABColor(string) ]  // v1.2X options
 		
 		// TODO: 
 		// ROTATELABel: allow label rotations
@@ -220,7 +221,8 @@ preserve
 	//   labels	   //
 	/////////////////
 	
-	if "`slabsize'" == "" local slabsize 2.2
+	if "`slabsize'"  == "" local slabsize 2.2
+	if "`slabcolor'" == "" local slabcolor black
 	
 	gen double markerx   = (100 + `displacelab') * cos(angle)
 	gen double markery   = (100 + `displacelab') * sin(angle)	
@@ -234,7 +236,7 @@ preserve
 				local angle = (r(mean)  * (180 / _pi)) + 255
 			} 
 		 
-			local labs `labs' (scatter markery markerx in `i', mc(none) mlab(`over') mlabpos(0) mlabcolor(black) mlabangle(`angle')  mlabsize(`slabsize'))  ///  // 
+			local labs `labs' (scatter markery markerx in `i', mc(none) mlab(`over') mlabpos(0) mlabcolor(`slabcolor') mlabangle(`angle')  mlabsize(`slabsize'))  ///  // 
 		  
 		} 		
 		
@@ -332,7 +334,7 @@ preserve
 							xscale(off) yscale(off)	///
 							xlabel(, nogrid) ylabel(, nogrid) ///
 							`mylegend' ///
-							`title' `subtitle' `note' `scheme' `name'
+							`title' `subtitle' `note' `scheme' `name' `saving'
 								
 									
 			

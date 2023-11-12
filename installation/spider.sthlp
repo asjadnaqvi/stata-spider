@@ -1,7 +1,7 @@
 {smcl}
-{* 03Jul2023}{...}
+{* 12Nov2023}{...}
 {hi:help spider}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.22 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.23 (GitHub)}}
 
 {hline}
 
@@ -18,9 +18,9 @@ The command is based on the following guide on Medium: {browse "https://medium.c
                   {cmdab:ra:nge}({it:val1 val2}) {cmd:cuts}({it:num}) {cmdab:lw:idth}({it:str}) {cmdab:msym:bol}({it:str})
                   {cmd:raformat}({it:fmt}) {cmdab:ralabs:ize}({it:str}) {cmdab:ralabc:olor}({it:str}) {cmdab:ralaba:ngle}({it:str}) 
                   {cmdab:ms:ize}({it:str}) {cmdab:mlw:idth}({it:str}) {cmdab:displacel:ab}({it:num}) {cmdab:displaces:pike}({it:num}) 
-                  {cmdab:cc:olor}({it:str}) {cmdab:cw:idth}({it:str}) {cmdab:sc:olor}({it:str}) {cmdab:sw:idth}({it:str}) {cmdab:slabs:ize}({it:str})
+                  {cmdab:cc:olor}({it:str}) {cmdab:cw:idth}({it:str}) {cmdab:sc:olor}({it:str}) {cmdab:sw:idth}({it:str}) {cmdab:slabs:ize}({it:str}) {cmdab:slabc:olor}({it:str})
                   {cmdab:noleg:end} {cmdab:legpos:iton}({it:num}) {cmdab:legpos:iton}({it:num}) {cmdab:legcol:umns}({it:num}) {cmdab:legs:ize}({it:num}) {cmd:xsize}({it:num}) {cmd:ysize}({it:num})
-                  {cmd:title}({it:str}) {cmd:subtitle}({it:str}) {cmd:note}({it:str}) {cmd:scheme}({it:str}) {cmd:name}({it:str}) {cmd:]}
+                  {cmd:title}({it:str}) {cmd:subtitle}({it:str}) {cmd:note}({it:str}) {cmd:scheme}({it:str}) {cmd:name}({it:str}) {cmd:saving}({it:str}) {cmd:]}
 
 {p 4 4 2}
 
@@ -96,7 +96,9 @@ The default value is {opt displaces(2)} for 2%.{p_end}
 
 {p2coldent : {opt sw:idth(str)}}The width of the spikes. Default is {opt sw(0.1)}.{p_end}
 
-{p2coldent : {opt slabs:ize(str)}}The width of the spikes. Default is {opt slabs(2.2)}.{p_end}
+{p2coldent : {opt slabs:ize(str)}}The width of the spike labels. Default is {opt slabs(2.2)}.{p_end}
+
+{p2coldent : {opt slabc:olor(str)}}The color of the spike labels. Default is {opt slabc(black)}.{p_end}
 
 {p2coldent : {opt xsize(num)}, {opt ysize(num)}}Dimensions of the graph. Defaults are {opt xsize(1)} and {opt ysize(1)}.{p_end}
 
@@ -127,8 +129,8 @@ See {browse "https://github.com/asjadnaqvi/stata-spider":GitHub} for examples.
 
 {title:Package details}
 
-Version      : {bf:spider} v1.22
-This release : 03 Jul 2023
+Version      : {bf:spider} v1.23
+This release : 12 Nov 2023
 First release: 13 Oct 2022
 Repository   : {browse "https://github.com/asjadnaqvi/stata-spider":GitHub}
 Keywords     : Stata, graph, spider plot
@@ -145,8 +147,6 @@ Please submit bugs, errors, feature requests on {browse "https://github.com/asja
 
 
 {title:References}
-
-{p 4 8 2}Pisati, B. (2018). {browse "help spmap":spmap} v1.3.2.
 
 {p 4 8 2}Jann, B. (2018). {browse "https://www.stata-journal.com/article.html?article=gr0075":Color palettes for Stata graphics}. The Stata Journal 18(4): 765-785.
 
