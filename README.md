@@ -101,55 +101,55 @@ gen year = year(date)
 spider index*, over(policy)
 ```
 
-<img src="/figures/spider1.png" height="600">
+<img src="/figures/spider1.png" width="100%">
 
 ```
 spider index*, over(policy) alpha(0)
 ```
 
-<img src="/figures/spider2.png" height="600">
+<img src="/figures/spider2.png" width="100%">
 
 ```
 spider index*, over(policy) alpha(0) msym(none)
 ```
 
-<img src="/figures/spider3.png" height="600">
+<img src="/figures/spider3.png" width="100%">
 
 ```
 spider index*, over(policy) alpha(0) msym(none) ra(0 100)
 ```
 
-<img src="/figures/spider4.png" height="600">
+<img src="/figures/spider4.png" width="100%">
 
 ```
 spider index*, over(policy) alpha(0) msym(none) ra(0 100) cuts(5)
 ```
 
-<img src="/figures/spider5.png" height="600">
+<img src="/figures/spider5.png" width="100%">
 
 ```
 spider index*, over(policy) alpha(0) msym(none) ra(20 70) cuts(6)
 ```
 
-<img src="/figures/spider5_1.png" height="600">
+<img src="/figures/spider5_1.png" width="100%">
 
 ```
 spider index*, over(policy) alpha(0) msym(none) ra(20 70) cuts(6) rot(45)
 ```
 
-<img src="/figures/spider5_2.png" height="600">
+<img src="/figures/spider5_2.png" width="100%">
 
 ```
 spider index* if year==2021, over(policy) alpha(0) msym(none) ra(0 100) cuts(5)
 ```
 
-<img src="/figures/spider6.png" height="600">
+<img src="/figures/spider6.png" width="100%">
 
 ```
 spider index* if year==2021, over(policy) msym(Oh) lw(0.4) ms(0.4) ra(0 100)
 ```
 
-<img src="/figures/spider6_1.png" height="600">
+<img src="/figures/spider6_1.png" width="100%">
 
 ### Smooth the spiders
 
@@ -169,13 +169,13 @@ spider index*, over(policy) ra(10 80) cuts(8) smooth(1)
 spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) palette(tol vibrant) lw(0.4) ms(0.6) alpha(2)
 ```
 
-<img src="/figures/spider8_1.png" height="600">
+<img src="/figures/spider8_1.png" width="100%">
 
 ```
 spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) palette(carto Bold) lw(0.4) ms(0.6) alpha(2)
 ```
 
-<img src="/figures/spider8_2.png" height="600">
+<img src="/figures/spider8_2.png" width="100%">
 
 
 Pass specific colors:
@@ -184,7 +184,7 @@ Pass specific colors:
 spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) palette(CET C1, select(3 5 8 11)) lw(0.4) ms(0.6) alpha(2)
 ```
 
-<img src="/figures/spider8_3.png" height="600">
+<img src="/figures/spider8_3.png" width="100%">
 
 
 ### Customize circles and rays
@@ -194,19 +194,19 @@ spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) palette(CET C1, select
 spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) cc(eltblue) cw(0.05)
 ```
 
-<img src="/figures/spider9_1.png" height="600">
+<img src="/figures/spider9_1.png" width="100%">
 
 ```
 spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) cc(eltblue) cw(0.05) sc(gs8) sw(0.2)
 ```
 
-<img src="/figures/spider9_2.png" height="600">
+<img src="/figures/spider9_2.png" width="100%">
 
 ```
 spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) cc(eltblue) cw(0.05) sc(eltblue) sw(0.3) displacelab(20) displacespike(10)
 ```
 
-<img src="/figures/spider9_3.png" height="600">
+<img src="/figures/spider9_3.png" width="100%">
 
 ### Legends and custom dimensions (v1.2)
 
@@ -214,13 +214,13 @@ spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) cc(eltblue) cw(0.05) s
 spider index*, over(policy) xsize(4) ysize(3)
 ```
 
-<img src="/figures/spider9_4.png" height="600">
+<img src="/figures/spider9_4.png" width="100%">
 
 ```
 spider index*, over(policy) xsize(4) ysize(3) legpos(3) legcol(1)
 ```
 
-<img src="/figures/spider9_5.png" height="600">
+<img src="/figures/spider9_5.png" width="100%">
 
 
 ### Try a different scaling
@@ -233,7 +233,7 @@ foreach x of varlist index_* {
 spider index*, over(policy) ra(0.1 0.7) cuts(4) raformat(%5.1f) ralabs(2) smooth(0) alpha(0)
 ```
 
-<img src="/figures/spider10.png" height="600">
+<img src="/figures/spider10.png" width="100%">
 
 ### Range label options (v1.21)
 
@@ -241,7 +241,7 @@ spider index*, over(policy) ra(0.1 0.7) cuts(4) raformat(%5.1f) ralabs(2) smooth
 spider index* if year==2021, over(policy) msym(Oh) lw(0.4) ms(0.4) ra(0 100) ralabc(blue) ralabs(2) ralaba(45)
 ```
 
-<img src="/figures/spider11.png" height="600">
+<img src="/figures/spider11.png" width="100%">
 
 
 ## Feedback
