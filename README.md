@@ -92,11 +92,9 @@ clear
 
 use "https://github.com/asjadnaqvi/stata-spider/blob/main/data/spider_data2.dta?raw=true", clear
 
-
-drop index_AUS index_LAC // can also keep these
-gen year = year(date)
 ```
 
+and test the command:
 
 ```
 spider index, by(policy) 
