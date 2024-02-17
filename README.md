@@ -157,7 +157,8 @@ spider index if inlist(region,1,6), by(policy) over(region) ra(10 80) cuts(8) al
 spider index if inlist(region,1,6), by(policy) over(region) ra(10 80) cuts(8) alpha(2) smooth(1)
 ```
 
-<img src="/figures/spider7.png" height="250"><img src="/figures/spider7_1.png" height="250"><img src="/figures/spider7_2.png" height="250"><img src="/figures/spider7_3.png" height="250">
+<img src="/figures/spider7.png"   width="50%"><img src="/figures/spider7_1.png" width="50%">
+<img src="/figures/spider7_2.png" width="50%"><img src="/figures/spider7_3.png" width="50%">
 
 ### Palettes
 
