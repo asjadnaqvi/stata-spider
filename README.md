@@ -108,73 +108,42 @@ spider index, by(policy)
 spider index, by(policy) over(region)
 ```
 
-<<<<<<< Updated upstream
-<img src="/figures/spider2.png" width="100%">
-=======
 <img src="/figures/spider1_2.png" width="100%">
->>>>>>> Stashed changes
+
 
 ```
 spider index, by(policy) over(region) alpha(0)
 ```
 
-<<<<<<< Updated upstream
-<img src="/figures/spider3.png" width="100%">
-=======
 <img src="/figures/spider2.png" width="100%">
->>>>>>> Stashed changes
+
 
 ```
 spider index, by(policy) over(region) alpha(0) msym(none)
 ```
 
-<<<<<<< Updated upstream
-<img src="/figures/spider4.png" width="100%">
-=======
 <img src="/figures/spider3.png" width="100%">
->>>>>>> Stashed changes
+
 
 ```
 spider index, by(policy) over(region) alpha(0) msym(square) msize(0.2) ra(0 100)
 ```
 
-<<<<<<< Updated upstream
-<img src="/figures/spider5.png" width="100%">
-=======
 <img src="/figures/spider4.png" width="100%">
->>>>>>> Stashed changes
+
 
 ```
 spider index, by(policy) over(region) alpha(0) rot(30)
 ```
 
-<<<<<<< Updated upstream
-<img src="/figures/spider5_1.png" width="100%">
-=======
 <img src="/figures/spider5.png" width="100%">
->>>>>>> Stashed changes
 
 ```
 spider index, by(policy) over(region) alpha(0) rot(30) rotatelab
 ```
 
-<<<<<<< Updated upstream
-<img src="/figures/spider5_2.png" width="100%">
-=======
 <img src="/figures/spider5_1.png" width="100%">
->>>>>>> Stashed changes
 
-
-<<<<<<< Updated upstream
-<img src="/figures/spider6.png" width="100%">
-
-```
-spider index* if year==2021, over(policy) msym(Oh) lw(0.4) ms(0.4) ra(0 100)
-```
-
-<img src="/figures/spider6_1.png" width="100%">
-=======
->>>>>>> Stashed changes
 
 ### Smooth the spiders
 
@@ -204,18 +173,6 @@ spider index, by(policy) over(region) smooth(0.1) palette(carto Bold) lw(0.4) ms
 
 <img src="/figures/spider8_2.png" width="100%">
 
-
-<<<<<<< Updated upstream
-Pass specific colors:
-
-```
-spider index*, over(policy) ra(10 80) cuts(8) smooth(0.1) palette(CET C1, select(3 5 8 11)) lw(0.4) ms(0.6) alpha(2)
-```
-
-<img src="/figures/spider8_3.png" width="100%">
-
-=======
->>>>>>> Stashed changes
 
 ### Customize circles and rays
 
@@ -270,8 +227,6 @@ spider index2, by(policy) over(region) ra(0.1 0.8) raformat(%5.1f) smooth(0) alp
 ```
 
 <img src="/figures/spider11.png" width="100%">
-<<<<<<< Updated upstream
-=======
 
 
 ### Bonus: Valentines day spending spider graph
@@ -308,7 +263,6 @@ spider y_, by(cat) over(gender) smooth(0.2) alpha(15) lw(0.4) palette(w3 default
 ```
 
 <img src="/figures/valentines2024.png" width="100%">
->>>>>>> Stashed changes
 
 
 ## Feedback
