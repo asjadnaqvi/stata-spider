@@ -9,8 +9,8 @@
 
 ---
 
-# spider v1.3
-(16 Feb 2024)
+# spider v1.31
+(11 May 2024)
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -24,7 +24,7 @@ The SSC version (**v1.23**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.3**):
+Or it can be installed from GitHub (**v1.31**):
 
 ```
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -62,13 +62,10 @@ The syntax for the latest version is as follows:
 
 ```stata
 spider var [if] [in], by(var) 
-                [ over(var) alpha(num 0-100) rotate(num) smooth(num 0-1)  palette(str)
-                  range(min max) cuts(num) lwidth(str) msymbol(str) rotatelabel
-                  raformat(fmt) ralabsize(str) ralabcolor(str) ralabangle(str) 
-                  msize(str) mlwidth(str) displacelab(num) displacespike(num) 
-                  ccolor(str) cwidth(str) scolor(str) swidth(str) slabsize(str) slabcolor(str)
-                  nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num) xsize(num) ysize(num)
-                  title(str) subtitle(str) note(str) scheme(str) name(str) saving(str) 
+                [ over(var) alpha(num 0-100) rotate(num) smooth(num 0-1) palette(str) range(min max) cuts(num) lwidth(str) msymbol(str) rotatelabel
+                  format(fmt) ralabsize(str) ralabcolor(str) ralabangle(str) msize(str) mlwidth(str) displacelab(num) displacespike(num) 
+                  ccolor(str) cwidth(str) scolor(str) swidth(str) slabsize(str) slabcolor(str) nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num) 
+				  xsize(num) ysize(num) *
                 ]
 ```
 
@@ -270,6 +267,12 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 
 ## Change log
+
+**v1.31 (11 May 2024)**
+- changed `raformat()` to just `format()` to standardize the use across packages.
+- `format()` default improved to show decimals.
+- Checks added for `by()` and `over()` to have minimum number of accepted categories.
+- Stata default passthru options improved.
 
 **v1.3 (16 Feb 2024)**
 - Complete rework of the package to take in the data in the long form. While this might be convinient for users who were using it for wide data, the newer version handle the data and labels better and is faster. The wide option might still be added back in later. Please note that change in the `by()` and `over()` options.

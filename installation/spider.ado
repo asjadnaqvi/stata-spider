@@ -1,6 +1,7 @@
-*! spider v1.3 (16 Feb 2024)
+*! spider v1.31 (11 May 2024)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.31	(11 May 2024): changed raformat() to format(). Format default improved. by() and over() error checks added. passthru changed to *.
 * v1.3	(16 Feb 2024): rewrite to suport long form, add rotate label, better legend controls.
 * v1.23 (12 Nov 2023): Added slabcolor(), saving()
 * v1.22 (03 Jul 2023): Fixed bug with numerical variables not passing correctly.
@@ -18,20 +19,18 @@
 
 cap program drop spider
 
-
 program spider, sortpreserve
 
 version 15
  
 	syntax varlist(numeric max=1) [if] [in], by(varname) ///
 		[ over(varname) alpha(real 10) ROtate(real 30) DISPLACELab(real 15) DISPLACESpike(real 2)  palette(string) 				] ///   	
-		[ RAnge(numlist min=2 max=2) cuts(real 6) smooth(numlist max=1 >=0 <=1) raformat(string)  RALABSize(string) ] ///
+		[ RAnge(numlist min=2 max=2) cuts(real 6) smooth(numlist max=1 >=0 <=1) format(string)  RALABSize(string) ] ///
 		[ LWidth(string) MSYMbol(string) MSize(string) MLWIDth(string)  											] /// // spider properties
 		[ CColor(string) CWidth(string)	SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
-		[ title(passthru) subtitle(passthru) note(passthru) scheme(passthru) name(passthru) saving(passthru)		] /// 
-		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 3) LEGSize(real 2.2) xsize(real 1) ysize(real 1) ] ///  // v1.2 updates.
-		[ RALABColor(string) RALABAngle(string) SLABColor(string) ] ///  // v1.2X options
-		[ ROTATELABel ]
+		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 3) LEGSize(real 2.2)  ] ///  // v1.2 updates.
+		[ RALABColor(string) RALABAngle(string) SLABColor(string) ROTATELABel ] ///  // v1.2X options
+		[ xsize(real 1) ysize(real 1) * ]
 		
 		
 	// check dependencies
@@ -54,6 +53,13 @@ qui {
 preserve		
 	keep if `touse'
 	keep `varlist' `by' `over'
+	
+	levelsof `by'
+	if r(r) < 3 {
+		display as error "by() variable should contain at least three categories."
+		exit
+	}
+	
 	
 	cap confirm numeric var `by'
 	
@@ -78,6 +84,14 @@ preserve
 		local overswitch = 1
 	}
 	else {
+		
+		levelsof `over'
+
+		if r(r) < 2 {
+			display as error "over() variable should contain at least two categories."
+			exit
+		}		
+		
 		local overswitch = 0
 		cap confirm numeric var `over'
 		
@@ -193,7 +207,7 @@ preserve
 	///////////////////////			
 	
 	
-	if "`raformat'" == "" local raformat %5.0f
+	if "`format'" == "" local format %12.1f
 	
 	local gap2 = (`norm2' - `norm1') / (`cuts' - 1)
 	
@@ -204,7 +218,7 @@ preserve
 	local i = 1
 
 	forval x = 0(`gap')100 {
-		replace xlab = string(`norm1' + ((`i' - 1) * `gap2'), "`raformat'")  in `i' 
+		replace xlab = string(`norm1' + ((`i' - 1) * `gap2'), "`format'")  in `i' 
 		replace xvar =  `x'  in `i'	
 		replace yvar =  0  in `i'	
 	   
@@ -355,7 +369,7 @@ preserve
 							xscale(off) yscale(off)	///
 							xlabel(, nogrid) ylabel(, nogrid) ///
 							`mylegend' ///
-							`title' `subtitle' `note' `scheme' `name' `saving'
+							`options'
 								
 									
 			
