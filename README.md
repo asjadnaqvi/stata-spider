@@ -1,13 +1,13 @@
-
-![spider-1](https://github.com/asjadnaqvi/stata-spider/assets/38498046/43b0aa06-726f-4f87-92b7-45c2fd653e79)
-
 ![StataMin](https://img.shields.io/badge/stata-2015-blue) ![issues](https://img.shields.io/github/issues/asjadnaqvi/stata-spider) ![license](https://img.shields.io/github/license/asjadnaqvi/stata-spider) ![Stars](https://img.shields.io/github/stars/asjadnaqvi/stata-spider) ![version](https://img.shields.io/github/v/release/asjadnaqvi/stata-spider) ![release](https://img.shields.io/github/release-date/asjadnaqvi/stata-spider)
-
----
 
 [Installation](#Installation) | [Syntax](#Syntax) | [Examples](#Examples) | [Feedback](#Feedback) | [Change log](#Change-log)
 
+
 ---
+
+![spider-1](https://github.com/asjadnaqvi/stata-spider/assets/38498046/43b0aa06-726f-4f87-92b7-45c2fd653e79)
+
+
 
 # spider v1.31
 (11 May 2024)
