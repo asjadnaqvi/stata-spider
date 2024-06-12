@@ -1,6 +1,6 @@
 ![StataMin](https://img.shields.io/badge/stata-2015-blue) ![issues](https://img.shields.io/github/issues/asjadnaqvi/stata-spider) ![license](https://img.shields.io/github/license/asjadnaqvi/stata-spider) ![Stars](https://img.shields.io/github/stars/asjadnaqvi/stata-spider) ![version](https://img.shields.io/github/v/release/asjadnaqvi/stata-spider) ![release](https://img.shields.io/github/release-date/asjadnaqvi/stata-spider)
 
-[Installation](#Installation) | [Syntax](#Syntax) | [Examples](#Examples) | [Feedback](#Feedback) | [Change log](#Change-log)
+[Installation](#Installation) | [Syntax](#Syntax) | [Citation guidelines](#Citation-guidelines) | [Examples](#Examples) | [Feedback](#Feedback) | [Change log](#Change-log)
 
 
 ---
@@ -9,8 +9,8 @@
 
 
 
-# spider v1.31
-(11 May 2024)
+# spider v1.32
+(11 Jun 2024)
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -24,7 +24,7 @@ The SSC version (**v1.31**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.31**):
+Or it can be installed from GitHub (**v1.32**):
 
 ```
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -63,7 +63,7 @@ The syntax for the latest version is as follows:
 ```stata
 spider var [if] [in], by(var) 
                 [ over(var) alpha(num 0-100) rotate(num) smooth(num 0-1) palette(str) range(min max) cuts(num) lwidth(str) msymbol(str) rotatelabel
-                  format(fmt) ralabsize(str) ralabcolor(str) ralabangle(str) msize(str) mlwidth(str) displacelab(num) displacespike(num) 
+                  format(fmt) ralabsize(str) ralabcolor(str) ralabangle(str) msize(str) mlwidth(str) displacelab(num) displacespike(num) wrap(num)
                   ccolor(str) cwidth(str) scolor(str) swidth(str) slabsize(str) slabcolor(str) nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num) 
 				  xsize(num) ysize(num) *
                 ]
@@ -78,6 +78,31 @@ spider numeric variables, over(category variable)
 ```
 
 where `numeric variables` are a set of variables where each corresponds to a spider plot, and `over()` defines the categories.
+
+
+## Citation guidelines
+Software packages take countless hours of programming, testing, and bug fixing. If you use this package, then a citation would be highly appreciated. Suggested citations:
+
+*in BibTeX*
+
+```
+@software{spider,
+   author = {Naqvi, Asjad},
+   title = {Stata package ``spider''},
+   url = {https://github.com/asjadnaqvi/stata-spider},
+   version = {1.32},
+   date = {2024-06-11}
+}
+```
+
+*or simple text*
+
+```
+Naqvi, A. (2024). Stata package "spider" version 1.32. Release date 11 June 2024. https://github.com/asjadnaqvi/stata-spider.
+```
+
+
+*or see [SSC citation](https://ideas.repec.org/c/boc/bocode/s459136.html) (updated once a new version is submitted)*
 
 
 ## Examples
@@ -267,6 +292,9 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 
 ## Change log
+
+**v1.32 (11 Jun 2024)**
+- Added `wrap()` to wrap labels.
 
 **v1.31 (11 May 2024)**
 - changed `raformat()` to just `format()` to standardize the use across packages.

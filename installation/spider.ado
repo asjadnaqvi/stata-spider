@@ -1,6 +1,8 @@
-*! spider v1.31 (11 May 2024)
+*! spider v1.32 (11 Jun 2024)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+
+* v1.32	(11 Jun 2024): add wrap() for label wraps
 * v1.31	(11 May 2024): changed raformat() to format(). Format default improved. by() and over() error checks added. passthru changed to *.
 * v1.3	(16 Feb 2024): rewrite to suport long form, add rotate label, better legend controls.
 * v1.23 (12 Nov 2023): Added slabcolor(), saving()
@@ -30,7 +32,7 @@ version 15
 		[ CColor(string) CWidth(string)	SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
 		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 3) LEGSize(real 2.2)  ] ///  // v1.2 updates.
 		[ RALABColor(string) RALABAngle(string) SLABColor(string) ROTATELABel ] ///  // v1.2X options
-		[ xsize(real 1) ysize(real 1) * ]
+		[ xsize(real 1) ysize(real 1) wrap(numlist >=0 max=1) * ]
 		
 		
 	// check dependencies
@@ -200,7 +202,7 @@ preserve
 	forval x = 0(`gap')100 {	
 		local circle `circle' (function sqrt(`x'^2 - x^2), lc(`ccolor') lw(`cwidth') lp(solid) range(-`x' `x') n(`sides')) || (function -sqrt(`x'^2 - x^2), lc(`ccolor') lw(`cwidth') lp(solid) range(-`x' `x')  n(`sides')) ||
 
-		}	
+	}	
 
 	///////////////////////
 	//   circle labels   //
@@ -249,7 +251,7 @@ preserve
 	//   labels	   //
 	/////////////////
 	
-	if "`slabsize'"  == "" local slabsize 2.2
+	if "`slabsize'"  == "" local slabsize  2.2
 	if "`slabcolor'" == "" local slabcolor black
 	
 	gen double markerx = .
@@ -266,17 +268,29 @@ preserve
 	
 		local varn : label `by' `i'
 		replace markerlab = "`varn'" in `i'
-	
+	}	
+		
+	if "`wrap'" != "" {
+		gen _length = length(markerlab) if markerlab!= ""
+		summ _length, meanonly		
+		local _wraprounds = floor(`r(max)' / `wrap')
+		
+		forval i = 1 / `_wraprounds' {
+			local wraptag = `wrap' * `i'
+			replace markerlab = substr(markerlab, 1, `wraptag') + "`=char(10)'" + substr(markerlab, `=`wraptag' + 1', .) if _length > `wraptag' & _length!=. 
+		}
+		drop _length
+	}			
+		
+		
+	forval i = 1/`byitems' {
 			if "`rotatelabel'" != "" {
 				sum   angle in `i', meanonly
 				local angle = (r(mean)  * (180 / _pi)) - 90
 			} 
 	
-	
-		local labs `labs' (scatter markery markerx in `i', mc(none) mlab("markerlab") mlabpos(0) mlabcolor(`slabcolor') mlabangle(`angle')  mlabsize(`slabsize'))  ///  // 
+		local labs `labs' (scatter markery markerx in `i', mc(none) mlab("markerlab") mlabpos(0) mlabcolor(`slabcolor') mlabangle(`angle')  mlabsize(`slabsize'))  
 		  
-	
-	
 	}
 		
 	/////////////////
@@ -521,6 +535,7 @@ restore
 
 	
 end
+
 
 *********************************
 ******** END OF PROGRAM *********

@@ -1,7 +1,7 @@
-v 1.31
+v 1.32
 d 'SPIDER': A Stata package for spider plots
 d
-d Distribution-Date: 20240511
+d Distribution-Date: 20241011
 d
 d Asjad Naqvi
 d asjadnaqvi@gmail.com

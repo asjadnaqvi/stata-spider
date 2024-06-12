@@ -1,7 +1,7 @@
 {smcl}
-{* 11May2024}{...}
+{* 11Jun2024}{...}
 {hi:help spider}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.31 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.32 (GitHub)}}
 
 {hline}
 
@@ -16,11 +16,10 @@ The command is based on the following guide on Medium: {browse "https://medium.c
 {cmd:spider} {it:var} {ifin}, {cmd:by}({it:var}) 
                 {cmd:[} {cmd:over}({it:var}) {cmd:alpha}({it:num 0-100}) {cmdab:ro:tate}({it:num}) {cmd:smooth}({it:num 0-1})  {cmd:palette}({it:str})
                   {cmdab:ra:nge}({it:min max}) {cmd:cuts}({it:num}) {cmdab:lw:idth}({it:str}) {cmdab:msym:bol}({it:str}) {cmdab:rotatelab:el}
-                  {cmd:format}({it:fmt}) {cmdab:ralabs:ize}({it:str}) {cmdab:ralabc:olor}({it:str}) {cmdab:ralaba:ngle}({it:str}) 
+                  {cmd:format}({it:fmt}) {cmdab:ralabs:ize}({it:str}) {cmdab:ralabc:olor}({it:str}) {cmdab:ralaba:ngle}({it:str}) {cmd:wrap}({it:num})
                   {cmdab:ms:ize}({it:str}) {cmdab:mlw:idth}({it:str}) {cmdab:displacel:ab}({it:num}) {cmdab:displaces:pike}({it:num}) 
                   {cmdab:cc:olor}({it:str}) {cmdab:cw:idth}({it:str}) {cmdab:sc:olor}({it:str}) {cmdab:sw:idth}({it:str}) {cmdab:slabs:ize}({it:str}) {cmdab:slabc:olor}({it:str})
-                  {cmdab:noleg:end} {cmdab:legpos:iton}({it:num}) {cmdab:legpos:iton}({it:num}) {cmdab:legcol:umns}({it:num}) {cmdab:legs:ize}({it:num}) {cmd:xsize}({it:num}) {cmd:ysize}({it:num})
-                  {cmd:title}({it:str}) {cmd:subtitle}({it:str}) {cmd:note}({it:str}) {cmd:scheme}({it:str}) {cmd:name}({it:str}) {cmd:saving}({it:str}) 
+                  {cmdab:noleg:end} {cmdab:legpos:iton}({it:num}) {cmdab:legpos:iton}({it:num}) {cmdab:legcol:umns}({it:num}) {cmdab:legs:ize}({it:num}) {cmd:xsize}({it:num}) {cmd:ysize}({it:num}) * 
                 {cmd:]}
 
 {p 4 4 2}
@@ -61,6 +60,8 @@ Please keep this in mind when defining this option.{p_end}
 {p2coldent : {opt format(fmt)}}Format the values of the data range. The default format is {opt format(%12.1f)}.
 If your data ranges has decimal values, then it is advised to change the display to a reasonable format.{p_end}
 
+{p2coldent : {opt wrap(num)}}Wrap the labels after a number of characters. A good starting point for very long labels is {opt wrap(50)}.{p_end}
+
 {p2coldent : {opt ralabs:ize(str)}}The size of the range labels. The default format is {opt ralabs(1.8)}.{p_end}
 
 {p2coldent : {opt ralabc:olor(str)}}The color of the range labels. The default format is {opt ralabc(black)}.{p_end}
@@ -72,6 +73,8 @@ Area fill lines can be turned off by defining {opt lw(none)}.{p_end}
 
 {p2coldent : {opt msym:bol(str)}}The marker symbol on the spider lines. Default is {opt msym(circle)}.
 Markers can be turned off by defining {opt msymb(none)}.{p_end}
+
+{p2coldent : {opt wrap(num)}}Wrap the labels after a number of characters. For example, {opt wrap(50)} will wrap labels every 50 characters.{p_end}
 
 {p2coldent : {opt ms:ize(str)}}The marker size on the spider lines. Default is {opt ms(0.3)}.{p_end}
 
@@ -107,11 +110,7 @@ The default value is {opt displaces(2)} for 2%.{p_end}
 
 {p2coldent : {opt xsize(num)}, {opt ysize(num)}}Dimensions of the graph. Defaults are {opt xsize(1)} and {opt ysize(1)}.{p_end}
 
-{p2coldent : {opt title}, {opt subtitle}, {opt note}}These are standard twoway graph options.{p_end}
-
-{p2coldent : {opt scheme(string)}}Load the custom scheme. Above options can be used to fine tune individual elements.{p_end}
-
-{p2coldent : {opt name(string)}}Assign a name to the graph.{p_end}
+{p2coldent : {opt *}}All other standard twoway options.{p_end}
 
 {synoptline}
 {p2colreset}{...}
@@ -134,8 +133,8 @@ See {browse "https://github.com/asjadnaqvi/stata-spider":GitHub} for examples.
 
 {title:Package details}
 
-Version      : {bf:spider} v1.31
-This release : 11 May 2024
+Version      : {bf:spider} v1.32
+This release : 11 Jun 2024
 First release: 13 Oct 2022
 Repository   : {browse "https://github.com/asjadnaqvi/stata-spider":GitHub}
 Keywords     : Stata, graph, spider plot
@@ -158,9 +157,30 @@ Please submit bugs, errors, feature requests on {browse "https://github.com/asja
 {p 4 8 2}Jann, B. (2022). {browse "https://ideas.repec.org/p/bss/wpaper/43.html":Color palettes for Stata graphics: An update}. University of Bern Social Sciences Working Papers No. 43. 
 
 
+{title:Feedback}
+
+Please submit bugs, errors, feature requests on {browse "https://github.com/asjadnaqvi/stata-spider/issues":GitHub} by opening a new issue.
+
+
+{title:Citation guidelines}
+
+Suggested citation guidlines for this package:
+
+Naqvi, A. (2024). Stata package "spider" version 1.32. Release date 11 June 2024. https://github.com/asjadnaqvi/stata-spider.
+
+@software{spider,
+   author = {Naqvi, Asjad},
+   title = {Stata package ``spider''},
+   url = {https://github.com/asjadnaqvi/stata-spider},
+   version = {1.32},
+   date = {2024-06-11}
+}
+
+
 {title:Other visualization packages}
 
 {psee}
     {helpb arcplot}, {helpb alluvial}, {helpb bimap}, {helpb bumparea}, {helpb bumpline}, {helpb circlebar}, {helpb circlepack}, {helpb clipgeo}, {helpb delaunay}, {helpb joyplot}, 
 	{helpb marimekko}, {helpb polarspike}, {helpb sankey}, {helpb schemepack}, {helpb spider}, {helpb streamplot}, {helpb sunburst}, {helpb treecluster}, {helpb treemap}, {helpb waffle}
 
+or visit {browse "https://github.com/asjadnaqvi":GitHub} for detailed documentation and examples.	
