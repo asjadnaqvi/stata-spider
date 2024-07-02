@@ -9,8 +9,8 @@
 
 
 
-# spider v1.32
-(11 Jun 2024)
+# spider v1.33
+(02 Jul 2024)
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -24,7 +24,7 @@ The SSC version (**v1.31**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.32**):
+Or it can be installed from GitHub (**v1.33**):
 
 ```
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -90,15 +90,15 @@ Software packages take countless hours of programming, testing, and bug fixing. 
    author = {Naqvi, Asjad},
    title = {Stata package ``spider''},
    url = {https://github.com/asjadnaqvi/stata-spider},
-   version = {1.32},
-   date = {2024-06-11}
+   version = {1.33},
+   date = {2024-07-02}
 }
 ```
 
 *or simple text*
 
 ```
-Naqvi, A. (2024). Stata package "spider" version 1.32. Release date 11 June 2024. https://github.com/asjadnaqvi/stata-spider.
+Naqvi, A. (2024). Stata package "spider" version 1.33. Release date 02 July 2024. https://github.com/asjadnaqvi/stata-spider.
 ```
 
 
@@ -292,6 +292,9 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 
 ## Change log
+
+**v1.33 (02 Jul 2024)**
+- Fixed a minor error where numeric `over()` and `by()` were not being labeled correctly.
 
 **v1.32 (11 Jun 2024)**
 - Added `wrap()` to wrap labels.

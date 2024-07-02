@@ -1,7 +1,7 @@
-*! spider v1.32 (11 Jun 2024)
+*! spider v1.33 (02 Jul 2024)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
-
+* v1.33	(02 Jul 2024): passthru bugs
 * v1.32	(11 Jun 2024): add wrap() for label wraps
 * v1.31	(11 May 2024): changed raformat() to format(). Format default improved. by() and over() error checks added. passthru changed to *.
 * v1.3	(16 Feb 2024): rewrite to suport long form, add rotate label, better legend controls.
@@ -51,7 +51,7 @@ version 15
 	marksample touse, strok
 	
 
-qui {
+quietly {
 preserve		
 	keep if `touse'
 	keep `varlist' `by' `over'
@@ -69,13 +69,17 @@ preserve
 		encode `by', gen(_by)
 		local by _by
 	}
-	else {
+	else { // if numeric with value label
 		egen _by = group(`by')
 		if "`: value label `by''" != "" {
 			tempvar tempov
 			decode  `by', gen(`tempov')		
 			labmask _by , val(`tempov')		
 		}
+		else { // if numeric with value label
+			labmask _by, val(`by')
+		}
+		
 		local by _by 
 	}	
 	
@@ -108,9 +112,15 @@ preserve
 				decode `over', gen(`tempov')		
 				labmask _over, val(`tempov')	
 			}
+			else { // if numeric with value label
+				labmask _over, val(`over')
+			}
+			
 			local over _over 
 		}	
 	}
+	
+	
 	
 	collapse (mean) `varlist', by(`by' `over')
 

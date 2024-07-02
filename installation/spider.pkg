@@ -1,4 +1,4 @@
-v 1.32
+v 1.33
 d {bf:SPIDER}: A Stata package for spider plots.
 d See {bf:help spider} after installation.
 d
@@ -9,9 +9,9 @@ d KW: graphs
 d KW: spider plot
 d
 d
-d Distribution-Date: 20240611
+d Distribution-Date: 20240702
 d
-d This  version: 11 Jun 2024
+d This  version: 02 Jul 2024
 d First version: 13 Oct 2022
 d License: MIT
 d

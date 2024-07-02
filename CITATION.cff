@@ -3,6 +3,6 @@ authors:
 - family-names: "Naqvi"
   given-names: "Asjad"
 title: "Stata package ``spider''"
-version: 1.32
-date-released: 2024-05-11
+version: 1.33
+date-released: 2024-07-02
 url: "https://github.com/asjadnaqvi/stata-spider"

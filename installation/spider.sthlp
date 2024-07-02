@@ -1,7 +1,7 @@
 {smcl}
-{* 11Jun2024}{...}
+{* 02Jul2024}{...}
 {hi:help spider}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.32 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.33 (GitHub)}}
 
 {hline}
 
@@ -133,8 +133,8 @@ See {browse "https://github.com/asjadnaqvi/stata-spider":GitHub} for examples.
 
 {title:Package details}
 
-Version      : {bf:spider} v1.32
-This release : 11 Jun 2024
+Version      : {bf:spider} v1.33
+This release : 02 Jul 2024
 First release: 13 Oct 2022
 Repository   : {browse "https://github.com/asjadnaqvi/stata-spider":GitHub}
 Keywords     : Stata, graph, spider plot
@@ -166,14 +166,14 @@ Please submit bugs, errors, feature requests on {browse "https://github.com/asja
 
 Suggested citation guidlines for this package:
 
-Naqvi, A. (2024). Stata package "spider" version 1.32. Release date 11 June 2024. https://github.com/asjadnaqvi/stata-spider.
+Naqvi, A. (2024). Stata package "spider" version 1.33. Release date 02 July 2024. https://github.com/asjadnaqvi/stata-spider.
 
 @software{spider,
    author = {Naqvi, Asjad},
    title = {Stata package ``spider''},
    url = {https://github.com/asjadnaqvi/stata-spider},
-   version = {1.32},
-   date = {2024-06-11}
+   version = {1.33},
+   date = {2024-07-02}
 }
 
 
