@@ -35,8 +35,8 @@ The command is based on the following guide on Medium: {browse "https://medium.c
 
 {p2coldent : {opt over(var)}}The {opt over()} defines the different spider categories. These variables show up in the legend.{p_end}
 
-{p2coldent : {opt stat(mean|sum)}}If there are multiple observations per {opt by()} and {opt over()}, then by default the program will be average them by triggering {opt stat(mean)}.
-Users can also sum the data by using the {opt stat(sum)}. Weights are allowed here.{p_end}
+{p2coldent : {opt stat(mean|sum)}}If there are multiple observations per {opt by()} and {opt over()}, then by default the program will take the mean by triggering {opt stat(mean)}.
+Users can also sum the data by using the {opt stat(sum)}. Weights are allowed here. As a note of caution, it is highly recommended to prepare the data before using this command.{p_end}
 
 {p2coldent : {opt alpha(num)}}The transparency of the spider area fills. The value ranges from 0-100, where 0 is no fill and 100 is fully filled. Default is {opt alpha(10)}.{p_end}
 
@@ -133,6 +133,31 @@ The default value is {opt displaces(2)} for 2%.{p_end}
 See {browse "https://github.com/asjadnaqvi/stata-spider":GitHub} for examples.
 
 
+{title:Feedback}
+
+Please submit bugs, errors, feature requests on {browse "https://github.com/asjadnaqvi/stata-spider/issues":GitHub} by opening a new issue.
+
+
+{title:Feedback}
+
+Please submit bugs, errors, feature requests on {browse "https://github.com/asjadnaqvi/stata-spider/issues":GitHub} by opening a new issue.
+
+
+{title:Citation guidelines}
+
+Suggested citation for this package:
+
+Naqvi, A. (2024). Stata package "spider" version 1.4. Release date 04 October 2024. https://github.com/asjadnaqvi/stata-spider.
+
+@software{spider,
+   author = {Naqvi, Asjad},
+   title = {Stata package ``spider''},
+   url = {https://github.com/asjadnaqvi/stata-spider},
+   version = {1.4},
+   date = {2024-10-04}
+}
+
+
 {title:Package details}
 
 Version      : {bf:spider} v1.4
@@ -147,11 +172,6 @@ E-mail       : asjadnaqvi@gmail.com
 Twitter      : {browse "https://twitter.com/AsjadNaqvi":@AsjadNaqvi}
 
 
-{title:Feedback}
-
-Please submit bugs, errors, feature requests on {browse "https://github.com/asjadnaqvi/stata-spider/issues":GitHub} by opening a new issue.
-
-
 {title:References}
 
 {p 4 8 2}Jann, B. (2018). {browse "https://www.stata-journal.com/article.html?article=gr0075":Color palettes for Stata graphics}. The Stata Journal 18(4): 765-785.
@@ -159,30 +179,10 @@ Please submit bugs, errors, feature requests on {browse "https://github.com/asja
 {p 4 8 2}Jann, B. (2022). {browse "https://ideas.repec.org/p/bss/wpaper/43.html":Color palettes for Stata graphics: An update}. University of Bern Social Sciences Working Papers No. 43. 
 
 
-{title:Feedback}
-
-Please submit bugs, errors, feature requests on {browse "https://github.com/asjadnaqvi/stata-spider/issues":GitHub} by opening a new issue.
-
-
-{title:Citation guidelines}
-
-Suggested citation guidlines for this package:
-
-Naqvi, A. (2024). Stata package "spider" version 1.4. Release date 04 October 2024. https://github.com/asjadnaqvi/stata-spider.
-
-@software{spider,
-   author = {Naqvi, Asjad},
-   title = {Stata package ``spider''},
-   url = {https://github.com/asjadnaqvi/stata-spider},
-   version = {1.4},
-   date = {2024-10-04}
-}
-
-
 {title:Other visualization packages}
 
 {psee}
-    {helpb arcplot}, {helpb alluvial}, {helpb bimap}, {helpb bumparea}, {helpb bumpline}, {helpb circlebar}, {helpb circlepack}, {helpb clipgeo}, {helpb delaunay}, {helpb joyplot}, 
+    {helpb arcplot}, {helpb alluvial}, {helpb bimap}, {helpb bumparea}, {helpb bumpline}, {helpb circlebar}, {helpb circlepack}, {helpb clipgeo}, {helpb delaunay}, {helpb graphfunctions}, {helpb joyplot}, 
 	{helpb marimekko}, {helpb polarspike}, {helpb sankey}, {helpb schemepack}, {helpb spider}, {helpb splinefit}, {helpb streamplot}, {helpb sunburst}, {helpb ternary}, {helpb treecluster}, {helpb treemap}, {helpb trimap}, {helpb waffle}
 
 or visit {browse "https://github.com/asjadnaqvi":GitHub}.
