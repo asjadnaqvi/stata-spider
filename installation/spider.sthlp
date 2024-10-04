@@ -1,7 +1,7 @@
 {smcl}
-{* 02Jul2024}{...}
+{* 04Oct2024}{...}
 {hi:help spider}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.33 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.4 (GitHub)}}
 
 {hline}
 
@@ -13,14 +13,14 @@ The command is based on the following guide on Medium: {browse "https://medium.c
 {marker syntax}{title:Syntax}
 {p 8 15 2}
 
-{cmd:spider} {it:var} {ifin}, {cmd:by}({it:var}) 
-                {cmd:[} {cmd:over}({it:var}) {cmd:alpha}({it:num 0-100}) {cmdab:ro:tate}({it:num}) {cmd:smooth}({it:num 0-1})  {cmd:palette}({it:str})
+{cmd:spider} {it:var} {ifin} {weight}, 
+                {cmd:[} {cmd:by}({it:var}) {cmd:over}({it:var}) {cmd:alpha}({it:num 0-100}) {cmdab:ro:tate}({it:num}) {cmd:smooth}({it:num 0-1})  {cmd:palette}({it:str})
                   {cmdab:ra:nge}({it:min max}) {cmd:cuts}({it:num}) {cmdab:lw:idth}({it:str}) {cmdab:msym:bol}({it:str}) {cmdab:rotatelab:el}
                   {cmd:format}({it:fmt}) {cmdab:ralabs:ize}({it:str}) {cmdab:ralabc:olor}({it:str}) {cmdab:ralaba:ngle}({it:str}) {cmd:wrap}({it:num})
                   {cmdab:ms:ize}({it:str}) {cmdab:mlw:idth}({it:str}) {cmdab:displacel:ab}({it:num}) {cmdab:displaces:pike}({it:num}) 
                   {cmdab:cc:olor}({it:str}) {cmdab:cw:idth}({it:str}) {cmdab:sc:olor}({it:str}) {cmdab:sw:idth}({it:str}) {cmdab:slabs:ize}({it:str}) {cmdab:slabc:olor}({it:str})
-                  {cmdab:noleg:end} {cmdab:legpos:iton}({it:num}) {cmdab:legpos:iton}({it:num}) {cmdab:legcol:umns}({it:num}) {cmdab:legs:ize}({it:num}) {cmd:xsize}({it:num}) {cmd:ysize}({it:num}) * 
-                {cmd:]}
+                  {cmdab:noleg:end} {cmdab:legpos:iton}({it:num}) {cmdab:legpos:iton}({it:num}) {cmdab:legcol:umns}({it:num}) {cmdab:legs:ize}({it:num}) {cmd:xsize}({it:num}) {cmd:ysize}({it:num})
+                  {cmd:stat}({it:mean}|{it:sum}) {cmd:pad}({it:num}) {cmd:n}({it:num})  * {cmd:]}
 
 {p 4 4 2}
 
@@ -29,29 +29,32 @@ The command is based on the following guide on Medium: {browse "https://medium.c
 {synopthdr}
 {synoptline}
 
-{p2coldent : {opt spider var, by(var)}}The command requires a numerical variable where the data is in long form. The data is split by {opt by()} categories across the circle. 
-If there are more observations per {opt by()} category, the command will collapse and average the data.
-So make sure to control the data before using the {cmd:spider} command in case you to plot other summary statistics.{p_end}
+{p2coldent : Long form: {opt spider var, by(var)}}The command requires one numerical variable where the data is in long form. The data is split by {opt by()} categories.{p_end}
+
+{p2coldent : Wide form: {opt spider varlist}}The command a list of numeric variables where the data is in wide form. For this case, the {opt by()} option cannot be specified.{p_end}
 
 {p2coldent : {opt over(var)}}The {opt over()} defines the different spider categories. These variables show up in the legend.{p_end}
 
-{p2coldent : {opt alpha(num)}}The transparency control of the spider area fills. The value ranges from 0-100, where 0 is no fill and 100 is fully filled.
-Default value is {it:10} or 10% transparency.{p_end}
+{p2coldent : {opt stat(mean|sum)}}If there are multiple observations per {opt by()} and {opt over()}, then by default the program will be average them by triggering {opt stat(mean)}.
+Users can also sum the data by using the {opt stat(sum)}. Weights are allowed here.{p_end}
+
+{p2coldent : {opt alpha(num)}}The transparency of the spider area fills. The value ranges from 0-100, where 0 is no fill and 100 is fully filled. Default is {opt alpha(10)}.{p_end}
 
 {p2coldent : {opt ro:tate(num)}}Rotate the graph in degrees. The default value is {it:30} or 30 degrees to prevent overlab with range values.{p_end}
 
 {p2coldent : {opt smooth(num)}}This option allows users to smooth out the spider plots using splines. It can take on values between [0,1] 
 where 0 = tighter curves and 1 = wider curves. A value of 0.5 is a reasonable middle ground.
-If the points are close to each other or there are large data spikes, then the smoothing might result in "twisting" or creating a loop for the splines.
-In this case, it is advised to use a smaller {opt smooth()}} value, or extend the range of the circles so points are reasonable better spaced.{p_end}
+If the points are close to each other or there are large data spikes, then the smoothing might result in a "twist" creating a loop for the splines.
+In this case, it is advised to use a smaller {opt smooth()} values, or extend the range of the circles so points are reasonable better spaced.
+If {opt smooth()} is not specified, then the figure will show a simple connected line plot.{p_end}
 
 {p2coldent : {opt palette(name)}}Color name is any named scheme defined in the {stata help colorpalette:colorpalette} package.
 Default is {stata colorpalette tableau:{it:tableau}}.{p_end}
 
 {p2coldent : {opt ra:nge(min max)}}Use this option to define the range of the graph. Default values are the minimum and maximum of all the data
-points that are offset by 10% of the data range. This might not be optimal in all cases. For example, if you know that your data is between 0-100,
+points that are offset by {opt pad()} percent of the data minmax range. This might not be optimal in all cases. For example, if you know that your data is between 0-100,
 but the actual values are between 40-80, the graph range will automatically adjust the ranges to 36 and 84, or 40-0.1*(80-40) and 80+0.1*(80-40)
-respectively. In this case, it is better to define {opt ra:nge(0 100)} to control the scaling.{p_end}
+respectively using the default {opt pad(10)}. In this case, it is better to define {opt ra:nge(0 100)} to control the scaling.{p_end}
 
 {p2coldent : {opt cuts(num)}}The number of cuts to show in the graph as rings. Default value is {opt cuts(6)}. For example, if the range is 
 0-100, six cuts will split the data into 0,20,40,60,80,100. Or (100/5) + 1 because we also need to account for the starting value.
@@ -60,7 +63,9 @@ Please keep this in mind when defining this option.{p_end}
 {p2coldent : {opt format(fmt)}}Format the values of the data range. The default format is {opt format(%12.1f)}.
 If your data ranges has decimal values, then it is advised to change the display to a reasonable format.{p_end}
 
-{p2coldent : {opt wrap(num)}}Wrap the labels after a number of characters. A good starting point for very long labels is {opt wrap(50)}.{p_end}
+{p2coldent : {opt wrap(num)}}Wrap the labels after a specific number of characters. Word boundaries are respected. Requires the {stata help graphfunctions:graphfunctions} package.{p_end}
+
+{p2coldent : {opt pad(num)}}Increase the min and max of the axis range by {opt pad()} percenage. Default is {opt pad(10)}.{p_end}
 
 {p2coldent : {opt ralabs:ize(str)}}The size of the range labels. The default format is {opt ralabs(1.8)}.{p_end}
 
@@ -108,7 +113,7 @@ The default value is {opt displaces(2)} for 2%.{p_end}
 
 {p2coldent : {opt slabc:olor(str)}}The color of the spike labels. Default is {opt slabc(black)}.{p_end}
 
-{p2coldent : {opt xsize(num)}, {opt ysize(num)}}Dimensions of the graph. Defaults are {opt xsize(1)} and {opt ysize(1)}.{p_end}
+{p2coldent : {opt n(num)}}Number of points to generate for the curve between each pair of points. Default is {opt n(50)}.{p_end}
 
 {p2coldent : {opt *}}All other standard twoway options.{p_end}
 
@@ -118,13 +123,10 @@ The default value is {opt displaces(2)} for 2%.{p_end}
 
 {title:Dependencies}
 
-The {browse "http://repec.sowi.unibe.ch/stata/palettes/index.html":palette} package (Jann 2018, 2022) is required for {cmd:spider}:
-
 {stata ssc install palettes, replace}
 {stata ssc install colrspace, replace}
+{stata ssc install graphfunctions, replace}
 
-Even if you have these installed, it is highly recommended to update the dependencies:
-{stata ado update, update}
 
 {title:Examples}
 
@@ -133,8 +135,8 @@ See {browse "https://github.com/asjadnaqvi/stata-spider":GitHub} for examples.
 
 {title:Package details}
 
-Version      : {bf:spider} v1.33
-This release : 02 Jul 2024
+Version      : {bf:spider} v1.4
+This release : 04 Oct 2024
 First release: 13 Oct 2022
 Repository   : {browse "https://github.com/asjadnaqvi/stata-spider":GitHub}
 Keywords     : Stata, graph, spider plot
@@ -166,14 +168,14 @@ Please submit bugs, errors, feature requests on {browse "https://github.com/asja
 
 Suggested citation guidlines for this package:
 
-Naqvi, A. (2024). Stata package "spider" version 1.33. Release date 02 July 2024. https://github.com/asjadnaqvi/stata-spider.
+Naqvi, A. (2024). Stata package "spider" version 1.4. Release date 04 October 2024. https://github.com/asjadnaqvi/stata-spider.
 
 @software{spider,
    author = {Naqvi, Asjad},
    title = {Stata package ``spider''},
    url = {https://github.com/asjadnaqvi/stata-spider},
-   version = {1.33},
-   date = {2024-07-02}
+   version = {1.4},
+   date = {2024-10-04}
 }
 
 
@@ -181,6 +183,6 @@ Naqvi, A. (2024). Stata package "spider" version 1.33. Release date 02 July 2024
 
 {psee}
     {helpb arcplot}, {helpb alluvial}, {helpb bimap}, {helpb bumparea}, {helpb bumpline}, {helpb circlebar}, {helpb circlepack}, {helpb clipgeo}, {helpb delaunay}, {helpb joyplot}, 
-	{helpb marimekko}, {helpb polarspike}, {helpb sankey}, {helpb schemepack}, {helpb spider}, {helpb streamplot}, {helpb sunburst}, {helpb treecluster}, {helpb treemap}, {helpb waffle}
+	{helpb marimekko}, {helpb polarspike}, {helpb sankey}, {helpb schemepack}, {helpb spider}, {helpb splinefit}, {helpb streamplot}, {helpb sunburst}, {helpb ternary}, {helpb treecluster}, {helpb treemap}, {helpb trimap}, {helpb waffle}
 
-or visit {browse "https://github.com/asjadnaqvi":GitHub} for detailed documentation and examples.	
+or visit {browse "https://github.com/asjadnaqvi":GitHub}.

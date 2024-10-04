@@ -1,6 +1,7 @@
-*! spider v1.33 (02 Jul 2024)
+*! spider v1.4 (04 Oct 2024)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.4  (04 Oct 2024): raformat() is now just format(), stat(mean|sum) added, weights allowed, varlist allowed, pad(), wrap()
 * v1.33	(02 Jul 2024): passthru bugs
 * v1.32	(11 Jun 2024): add wrap() for label wraps
 * v1.31	(11 May 2024): changed raformat() to format(). Format default improved. by() and over() error checks added. passthru changed to *.
@@ -25,14 +26,15 @@ program spider, sortpreserve
 
 version 15
  
-	syntax varlist(numeric max=1) [if] [in], by(varname) ///
-		[ over(varname) alpha(real 10) ROtate(real 30) DISPLACELab(real 15) DISPLACESpike(real 2)  palette(string) 				] ///   	
+	syntax varlist(numeric) [if] [in] [aw fw pw iw/] ///
+		[ , by(varname) over(varname) alpha(real 10) ROtate(real 30) DISPLACELab(real 15) DISPLACESpike(real 2)  palette(string) 				] ///   	
 		[ RAnge(numlist min=2 max=2) cuts(real 6) smooth(numlist max=1 >=0 <=1) format(string)  RALABSize(string) ] ///
 		[ LWidth(string) MSYMbol(string) MSize(string) MLWIDth(string)  											] /// // spider properties
 		[ CColor(string) CWidth(string)	SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
 		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 3) LEGSize(real 2.2)  ] ///  // v1.2 updates.
 		[ RALABColor(string) RALABAngle(string) SLABColor(string) ROTATELABel ] ///  // v1.2X options
-		[ xsize(real 1) ysize(real 1) wrap(numlist >=0 max=1) * ]
+		[ xsize(real 1) ysize(real 1)  * ]	///
+		[ stat(string) unique pad(real 10) n(real 50) wrap(numlist >0 max=1) ] // v1.4 
 		
 		
 	// check dependencies
@@ -42,11 +44,24 @@ version 15
 		exit
 	}
 	
-	
+
 	cap findfile labmask.ado
-	if _rc != 0 {
-		qui ssc install labutil, replace 
-	}		
+		if _rc != 0 quietly ssc install labutil, replace
+	
+	cap findfile labsplit.ado
+		if _rc != 0 quietly ssc install graphfunctions, replace	
+	
+	if "`stat'" != "" & !inlist("`stat'", "mean", "sum") {
+		display as error "Valid options are {bf:stat(mean)} [default] or {bf:stat(sum)}."
+		exit
+	}	
+	
+	if "`unique'" != "" & "`range'" != "" {
+		display as error "{bf:unique} and {bf:range} cannot be specified together."
+		exit
+	}
+	
+	
 	
 	marksample touse, strok
 	
@@ -54,14 +69,68 @@ version 15
 quietly {
 preserve		
 	keep if `touse'
-	keep `varlist' `by' `over'
+	keep `varlist' `by' `over' `exp'
 	
-	levelsof `by'
-	if r(r) < 3 {
-		display as error "by() variable should contain at least three categories."
+	local length : word count `varlist'
+	
+	
+	if `length' == 1 & "`by'" == "" {
+		di as error "Please specify a {bf:by()} with at least three categories."
 		exit
 	}
 	
+	if `length' == 1 & "`by'" != "" {
+		levelsof `by'
+		if r(r) < 3 {
+			display as error "by() variable should contain at least three categories."
+			exit
+		}
+	}
+		
+	if `length' > 1 & "`by'" != "" {	
+		di as error "If more than one variable are specified then {bf:by} is not required."
+		exit
+	}
+	
+	// parse varlists 
+	if `length' > 1 {
+		
+		// store the info
+		local i = 1
+		
+		foreach x of local varlist {
+			drop if missing(`x')
+			
+			// somewhere here preserve unique values
+			
+			ren `x' _val`i'
+
+			if "`: var label _val`i''" != "" {
+				local lab`i' : var label _val`i'
+			}
+			else {
+				local lab`i' `x'
+			}
+					
+			local ++i
+		}	
+		
+		gen _id = _n
+		reshape long _val, i(_id) j(_temp)
+		
+		gen _var=""
+		
+		forval i = 1/`length' {
+			replace _var = "`lab`i''" if _temp==`i'
+		}
+		
+		sort _var _id
+		drop _temp _id
+		
+		local by _var
+		local varlist _val
+	}
+
 	
 	cap confirm numeric var `by'
 	
@@ -121,35 +190,66 @@ preserve
 	}
 	
 	
+	if "`stat'" == "" local stat mean
 	
-	collapse (mean) `varlist', by(`by' `over')
+	if "`weight'" != "" local myweight  [`weight' = `exp']
+	
+	collapse (`stat') `varlist' `myweight', by(`by' `over')
 
-	sum `varlist', meanonly
-	local varmin = r(min)
-	local varmax = r(max)
-	
-	
+
 	/////////////////////
 	// set the scales  //  
 	/////////////////////
 	
-	if "`range'" != "" {
+	if "`range'" != ""  {
 		tokenize `range'
 		local norm1 `1'
 		local norm2 `2'
-		
 	}
 	else {
+		sum `varlist', meanonly
+		local varmin = r(min)
+		local varmax = r(max)
 		
-		local disp = (`varmax' - `varmin') * 0.1  // displace minmax by 10%
+		local disp = (`varmax' - `varmin') * (`pad' / 100)  // displace minmax by 10%
 		
 		local norm1 = `varmin' - `disp'
 		local norm2 = `varmax' + `disp'
 	}
+	
+	
+	/*
+	if "`unique'" != "" & "`over'"!="" {
+		
+		levelsof `by', local(lvls)
+		
+		foreach x of local lvls {
+
+		
+			sum `varlist' if `by'==`x', meanonly
+			local varmin = r(min)
+			local varmax = r(max)
+		
+
+			local disp = (`varmax' - `varmin') * (`pad' / 100)  // displace minmax by 10%
+		
+			local norm1 = `varmin' - `disp'
+			local norm2 = `varmax' + `disp'
+	
+			replace `varlist' = ((`varlist' - `norm1') / (`norm2' - `norm1')) * 100 if `by'==`x'
+	
+		}
+		
+	}
+	*/
+	*else {
+		
 
 	
-	// rescale variables between [0,100] from their global min/max. This ensures that negative numbers are there as well
+		// rescale variables between [0,100] from their global min/max. This ensures that negative numbers are there as well
 		replace `varlist' = ((`varlist' - `norm1') / (`norm2' - `norm1')) * 100
+	*}
+		
 
 	
 	sort `over' `by'  
@@ -181,7 +281,7 @@ preserve
 				
 				cap drop _m
 				
-				smoother y x if `over'==`x' , rho(`smooth')		
+				smoother y x if `over'==`x' , rho(`smooth')	obs(`n')
 				ren Cx x`x'_pts   // 
 				ren Cy y`x'_pts   // 
 
@@ -279,18 +379,14 @@ preserve
 		local varn : label `by' `i'
 		replace markerlab = "`varn'" in `i'
 	}	
-		
+	
+	
+	local labval markerlab
+	
 	if "`wrap'" != "" {
-		gen _length = length(markerlab) if markerlab!= ""
-		summ _length, meanonly		
-		local _wraprounds = floor(`r(max)' / `wrap')
-		
-		forval i = 1 / `_wraprounds' {
-			local wraptag = `wrap' * `i'
-			replace markerlab = substr(markerlab, 1, `wraptag') + "`=char(10)'" + substr(markerlab, `=`wraptag' + 1', .) if _length > `wraptag' & _length!=. 
-		}
-		drop _length
-	}			
+		labsplit markerlab, wrap(`wrap') gen(_lab2)
+		local labval _lab2
+	}		
 		
 		
 	forval i = 1/`byitems' {
@@ -299,7 +395,7 @@ preserve
 				local angle = (r(mean)  * (180 / _pi)) - 90
 			} 
 	
-		local labs `labs' (scatter markery markerx in `i', mc(none) mlab("markerlab") mlabpos(0) mlabcolor(`slabcolor') mlabangle(`angle')  mlabsize(`slabsize'))  
+		local labs `labs' (scatter markery markerx in `i', mc(none) mlab(`labval') mlabpos(0) mlabcolor(`slabcolor') mlabangle(`angle')  mlabsize(`slabsize'))  
 		  
 	}
 		
@@ -378,6 +474,8 @@ preserve
 	if "`ralabsize'"  == "" local ralabsize = 1.8
 	if "`ralabcolor'" == "" local ralabcolor black
 	if "`ralabangle'" == "" local ralabangle 0
+	
+	
 
     twoway	///
 			`circle' 	///
