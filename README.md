@@ -377,12 +377,12 @@ spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4
 
 Here is another version which showcases v1.5 updates:
 
-```
-spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4) palette(w3 default, select(1 4)) rotatelab  rline(20 50)  ///
+```stata
+spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4) palette(w3 default, select(1 4)) rotatelab  rline(25 50)  ///
 	legcol(3) legsize(3) msize(0.15) sc(black) gcolor(gs13)  format(%5.0f) displacelab(20) glabsize(2) wrap(5) ///
+	plotregion(margin(l-20 r-20)) ra(0(10)60) grid lp(solid dash) ///
 	title("{fontface Merriweather Bold:Valentines day spending by gender}", size(5) color(cranberry))  ///
-	note("Source: TidyTuesday, 14th Feb 2024.", size(1.5)) ///
-	plotregion(margin(l-20 r-20)) ra(0(10)60) grid
+	note("Source: TidyTuesday, 14th Feb 2024.", size(1.5)) 
 ```
 <img src="/figures/valentines2024_v2.png" width="100%">
 
