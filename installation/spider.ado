@@ -30,7 +30,7 @@ version 15
  
 	syntax varlist(numeric) [if] [in] [aw fw pw iw/] ///
 		[ , by(varname) over(varname) alpha(real 10) ROtate(real 0) DISPLACELab(real 15) DISPLACESpike(real 2) palette(string) ] ///   	
-		[ RAnge(numlist ascending min=2 max=2) cuts(real 6) smooth(numlist max=1 >=0 <=1) format(string)  ] ///
+		[ RAnge(numlist ascending) cuts(real 6) smooth(numlist max=1 >=0 <=1) format(string)  ] ///
 		[ SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
 		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 3) LEGSize(real 2.2)  ] ///  // v1.2 updates.
 		[ GLABColor(string) GLABSize(string) GLABAngle(string) SLABColor(string) ROTATELABel ] ///  // v1.2X options
@@ -202,14 +202,12 @@ preserve
 	/////////////////////
 	
 	if "`range'" != ""  {
+			
+		local pnum1 "`range'"
+		local pnum2 : subinstr  local pnum1 " " "," , all
 		
-		*local minmax : subinstr local `range' " " ",", all 
-		*local norm1 = min(`minmax')
-		*local norm2 = max(`minmax')
-		
-		tokenize `range'
-		local norm1 `1'
-		local norm2 `2'
+		local norm1 min(`pnum2')
+		local norm2 max(`pnum2')
 		
 	}
 	else {
@@ -219,13 +217,16 @@ preserve
 		
 		local disp = (`varmax' - `varmin') * (`pad' / 100)  // displace minmax by 10%
 		
-		local norm1 = `varmin' - `disp'
-		local norm2 = `varmax' + `disp'
+		local norm1 = floor(`varmin' - `disp')
+		local norm2 = ceil(`varmax' + `disp')
 	}
+	
 	
 
 	// rescale variables between [0,100] from their global min/max. This ensures that negative numbers are there as well
+	
 	replace `varlist' = ((`varlist' - `norm1') / (`norm2' - `norm1')) * 100
+
 
 	sort `over' `by'  
 	bysort `over': gen _seq = _n
@@ -248,7 +249,6 @@ preserve
 		
 		if "`smooth'" != "" {
 		
-			*if _N < 50 set obs 50 // generate the points
 		
 			levelsof `over', local(lvls)
 			
@@ -264,6 +264,7 @@ preserve
 		}
 	
 
+
 	
 	///////////////
 	//   grids   //
@@ -275,20 +276,28 @@ preserve
 	if "`gpattern'" == "" local gpattern solid
 	
 	
-	local gap = floor((100 - 0) / (`cuts' - 1))
-	
+	if "`range'"== "" {
 		
-	if `gap' > _N 	set obs `=`gap' + 1'
+		local gap = (`norm2' - `norm1') / (`cuts' - 1)
+		if `gap' > _N 	set obs `=`gap' + 1'
+
+		numlist "`norm1'(`gap')`norm2'"
+		local pnum1 = "`r(numlist)'"
+		local pnum2 : subinstr  local pnum1 " " "," , all
+	}
 	
 	
 	cap drop _order _id _x _y
-	forval x = `gap'(`gap')100 {	
+	
+	foreach x of local pnum1 {	
+
+		local y = ((`x' - `norm1') / (`norm2' - `norm1')) * 100
 		
 		if "`grid'"!= "" {
-			shapes circle, n(`items') rad(`x') rotate(`rotate') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
+			shapes circle, n(`items') rad(`y') rotate(`rotate') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
 		} 
 		else {
-			shapes circle, n(100) rad(`x')  rotate(`rotate') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
+			shapes circle, n(100) rad(`y') rotate(`rotate') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
 		}
 	}
 	
@@ -311,6 +320,8 @@ preserve
 			
 			local y = ((`x' - `norm1') / (`norm2' - `norm1')) * 100
 			
+			*local y = `x'
+			
 			if "`grid'"!= "" {
 				shapes circle, n(`items') rad(`y') rotate(`rotate') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
 			} 
@@ -322,25 +333,30 @@ preserve
 		local reflines (line _ry _rx, cmissing(n) lc(`rlinecolor') lw(`rlinewidth') lp(`rlinepattern'))	
 	
 	}
+	
+	
+	
 
 	///////////////////////
-	//   grid labels   //
+	//   grid labels    //
 	///////////////////////			
 	
 	
 	if "`format'" == "" local format %12.1f
 	
-	local gap2 = (`norm2' - `norm1') / (`cuts' - 1)
-	
+
 	gen xvar = .
 	gen yvar = .
 	gen xlab = ""
 
 	local i = 1
 
-	forval x = 0(`gap')100 {
-		replace xlab = string(`norm1' + ((`i' - 1) * `gap2'), "`format'")  in `i' 
-		replace xvar =  `x'  in `i'	
+	foreach x of local pnum1 {	
+		
+		local y = ((`x' - `norm1') / (`norm2' - `norm1')) * 100
+		
+		replace xlab = string(`x', "`format'")  in `i' 
+		replace xvar =  `y'  in `i'	
 		replace yvar =  0  in `i'	
 	   
 		local ++i
@@ -358,8 +374,11 @@ preserve
 	gen double spikes = _n in 1/`items'
 	
 	forval x = 1/`items' {
-		local theta = `x' * 2 * _pi / `items'   
-		local liner = (100 + `displacespike') * cos(`theta' + `ro')
+		local theta = `x' * 2 * _pi / `items'  
+		
+		local y = ((`norm2' - `norm1') / (`norm2' - `norm1')) * 100
+		
+		local liner = (`y' + `displacespike') * cos(`theta' + `ro')
 		
 		local spike `spike' (function (tan(`theta' + `ro')) * x, n(2) range(0 `liner') lw(`swidth') lc(`scolor') lp(solid)) 
 		
@@ -382,8 +401,10 @@ preserve
 		
 	forval i = 1/`byitems' {
 	
-		replace markerx   = (100 + `displacelab') * cos(angle) in `i'
-		replace markery   = (100 + `displacelab') * sin(angle) in `i'	
+		local y = ((`norm2' - `norm1') / (`norm2' - `norm1')) * 100
+	
+		replace markerx   = (`y' + `displacelab') * cos(angle) in `i'
+		replace markery   = (`y' + `displacelab') * sin(angle) in `i'	
 	
 		local varn : label `by' `i'
 		replace markerlab = "`varn'" in `i'

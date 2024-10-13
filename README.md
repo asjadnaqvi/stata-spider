@@ -64,7 +64,7 @@ The syntax for the latest version is as follows:
 ```stata
 spider var [if] [in] [weight], 
                 [ by(var) over(var) alpha(num 0-100) rotate(num) smooth(num 0-1) palette(str)
-                  range(min max) cuts(num) lwidth(str) lpattern(list) msymbol(list) rotatelabel
+                  range(numlist) cuts(num) lwidth(str) lpattern(list) msymbol(list) rotatelabel
                   format(fmt) ralabsize(str) ralabcolor(str) ralabangle(str) wrap(num)
                   msize(str) mlwidth(str) displacelab(num) displacespike(num) 
                   grid gcolor(str) gwidth(str) gpattern(str)
@@ -155,7 +155,7 @@ spider index, by(policy) over(region) alpha(0) msym(none)
 
 
 ```stata
-spider index, by(policy) over(region) alpha(0) msym(square) msize(0.2) ra(0 100)
+spider index, by(policy) over(region) alpha(0) msym(square) msize(0.2) ra(0(20)100)
 ```
 
 <img src="/figures/spider4.png" width="100%">
@@ -177,13 +177,13 @@ spider index, by(policy) over(region) alpha(0) rot(30) rotatelab
 ### Smooth the spiders
 
 ```stata
-spider index if inlist(region,1,6), by(policy) over(region) ra(10 80) cuts(8) alpha(2)
+spider index if inlist(region,1,6), by(policy) over(region) ra(10(10)80) alpha(2) rot(30) format(%6.0f)
 
-spider index if inlist(region,1,6), by(policy) over(region) ra(10 80) cuts(8) alpha(2) smooth(0)
+spider index if inlist(region,1,6), by(policy) over(region) ra(10(10)80) alpha(2) rot(30) format(%6.0f) smooth(0)
 
-spider index if inlist(region,1,6), by(policy) over(region) ra(10 80) cuts(8) alpha(2) smooth(0.5)
+spider index if inlist(region,1,6), by(policy) over(region) ra(10(10)80) alpha(2) rot(30) format(%6.0f) smooth(0.5)
 
-spider index if inlist(region,1,6), by(policy) over(region) ra(10 80) cuts(8) alpha(2) smooth(1)
+spider index if inlist(region,1,6), by(policy) over(region) ra(10(10)80) alpha(2) rot(30) format(%6.0f) smooth(1)
 ```
 
 <img src="/figures/spider7.png"   width="50%"><img src="/figures/spider7_1.png" width="50%">
@@ -192,35 +192,35 @@ spider index if inlist(region,1,6), by(policy) over(region) ra(10 80) cuts(8) al
 ### Palettes
 
 ```stata
-spider index, by(policy) over(region) smooth(0.1) palette(tol vibrant) lw(0.4) msym(none) alpha(2)
+spider index, by(policy) over(region) smooth(0.1) palette(tol vibrant) lw(0.4) msym(none) alpha(2) rot(30) format(%6.0f)
 ```
 
 <img src="/figures/spider8_1.png" width="100%">
 
 ```stata
-spider index, by(policy) over(region) smooth(0.1) palette(carto Bold) lw(0.4) msym(none) alpha(2)
+spider index, by(policy) over(region) smooth(0.1) palette(carto Bold) lw(0.4) msym(none) alpha(2) rot(30) format(%6.0f)
 ```
 
 <img src="/figures/spider8_2.png" width="100%">
 
 
-### Customize circles and rays
+### Customize grids and spikes
 
 
 ```stata
-spider index, by(policy) over(region) ra(10 80) cuts(8) smooth(0.1) cc(eltblue) cw(0.05)
+spider index, by(policy) over(region) ra(10(10)80) smooth(0.1) gc(eltblue) gw(0.05) rot(30) format(%6.0f)
 ```
 
 <img src="/figures/spider9_1.png" width="100%">
 
 ```stata
-spider index, by(policy) over(region) ra(10 80) cuts(8) smooth(0.1) cc(eltblue) cw(0.05) sc(black) sw(0.1)
+spider index, by(policy) over(region) ra(10(10)80) smooth(0.1) gc(eltblue) gw(0.05) sc(black) sw(0.1) rot(30) format(%6.0f)
 ```
 
 <img src="/figures/spider9_2.png" width="100%">
 
 ```stata
-spider index, by(policy) over(region) ra(10 80) cuts(8) smooth(0.1) cc(eltblue) cw(0.05) sc(eltblue) sw(0.3) displacelab(20) displacespike(10) rotatelab
+spider index, by(policy) over(region) ra(10(10)80) smooth(0.1) gc(eltblue) gw(0.05) sc(eltblue) sw(0.3) displacelab(20) displacespike(10) rotatelab rot(30) format(%6.0f)
 ```
 
 <img src="/figures/spider9_3.png" width="100%">
@@ -228,13 +228,13 @@ spider index, by(policy) over(region) ra(10 80) cuts(8) smooth(0.1) cc(eltblue) 
 ### Legends and custom dimensions (v1.2)
 
 ```stata
-spider index, by(policy) over(region) smooth(0) alpha(5) xsize(4) ysize(3)
+spider index, by(policy) over(region) smooth(0) alpha(5) rot(30) format(%6.0f) xsize(4) ysize(3) 
 ```
 
 <img src="/figures/spider9_4.png" width="100%">
 
 ```stata
-spider index, by(policy) over(region) smooth(0) alpha(5) xsize(4) ysize(3) legpos(3) legcol(1)
+spider index, by(policy) over(region) smooth(0) alpha(5) rot(30) format(%6.0f) xsize(4) ysize(3) legpos(3) legcol(1)
 ```
 
 <img src="/figures/spider9_5.png" width="100%">
@@ -245,7 +245,7 @@ spider index, by(policy) over(region) smooth(0) alpha(5) xsize(4) ysize(3) legpo
 ```stata
 gen index2 = index / 100
 
-spider index2, by(policy) over(region) ra(0.1 0.8) format(%5.1f)  smooth(0) alpha(0) ralabs(2)
+spider index2, by(policy) over(region) ra(0.1(0.1)0.8) format(%5.1f) rot(30)  smooth(0) alpha(0) glabs(2)
 ```
 
 <img src="/figures/spider10.png" width="100%">
@@ -253,7 +253,7 @@ spider index2, by(policy) over(region) ra(0.1 0.8) format(%5.1f)  smooth(0) alph
 ### Range label options (v1.21)
 
 ```stata
-spider index2, by(policy) over(region) ra(0.1 0.8) format(%5.1f) smooth(0) alpha(0) ralabc(blue) ralabs(1.5) ralaba(-90)
+spider index2, by(policy) over(region) ra(0.1(0.1)0.8) format(%5.1f)  rot(30) smooth(0) alpha(0) glabc(blue) glabs(1.5) glaba(-90)
 ```
 
 <img src="/figures/spider11.png" width="100%">
@@ -264,7 +264,7 @@ spider index2, by(policy) over(region) ra(0.1 0.8) format(%5.1f) smooth(0) alpha
 Word wrapping
 
 ```stata
-spider index, by(policy) over(region) smooth(0) alpha(5) wrap(5)
+spider index, by(policy) over(region) smooth(0) alpha(5) wrap(5) rot(30)
 ```
 
 <img src="/figures/spider12.png" width="100%">
@@ -293,7 +293,8 @@ forval i = 1 / `items' {
 	lab var index`i' "`val`i''"
 }
 
-spider index*, over(region) smooth(0) alpha(5) wrap(5)
+
+spider index*, over(region) smooth(0) alpha(5) wrap(5)  rot(30)
 ```
 
 <img src="/figures/spider13.png" width="100%">
@@ -309,34 +310,40 @@ use "https://github.com/asjadnaqvi/stata-spider/blob/main/data/spider_data2.dta?
 
 
 ```stata
-spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f)
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0(20)80) format(%5.0f) rot(30)
 ```
 
 <img src="/figures/spider14.png" width="100%">
 
+```stata
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 10 30 50 70 80) format(%5.0f) rot(30)
+```
+
+<img src="/figures/spider14_1.png" width="100%">
+
 
 ```stata
-spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f) grid
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0(20)80) format(%5.0f) grid rot(30)
 ```
 
 <img src="/figures/spider15.png" width="100%">
 
 ```stata
-spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f) grid rline(25 50 75) rlinew(0.2) rlinec(black)
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0(20)80) format(%5.0f) grid rline(25 50 70) rlinew(0.2) rlinec(black) rot(30)
 ```
 
 <img src="/figures/spider16.png" width="100%">
 
 ```stata
-spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f) ///
-	msym(S T O +) msize(1.2)
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0(20)80) cuts(5) format(%5.0f) ///
+	msym(S T O +) msize(1.2) rot(30)
 ```
 
 <img src="/figures/spider17.png" width="100%">
 
 ```stata
-spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f) ///
-	lp(dash solid dash)
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0(20)80) cuts(5) format(%5.0f) ///
+	lp(dash dot solid -- -.-) rot(30)
 ```
 
 <img src="/figures/spider18.png" width="100%">
@@ -368,6 +375,17 @@ spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4
 <img src="/figures/valentines2024.png" width="100%">
 
 
+Here is another version which showcases v1.5 updates:
+
+```
+spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4) palette(w3 default, select(1 4)) rotatelab  rline(20 50)  ///
+	legcol(3) legsize(3) msize(0.15) sc(black) gcolor(gs13)  format(%5.0f) displacelab(20) glabsize(2) wrap(5) ///
+	title("{fontface Merriweather Bold:Valentines day spending by gender}", size(5) color(cranberry))  ///
+	note("Source: TidyTuesday, 14th Feb 2024.", size(1.5)) ///
+	plotregion(margin(l-20 r-20)) ra(0(10)60) grid
+```
+<img src="/figures/valentines2024_v2.png" width="100%">
+
 ## Feedback
 
 Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to report errors, feature enhancements, and/or other requests. 
@@ -376,13 +394,15 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 ## Change log
 
 **v1.5 (13 Oct 2024)**
-- Now requires dependency `graphfunctions`. 
+- Now requires dependency [graphfunctions](https://github.com/asjadnaqvi/stata-graphfunctions) (check versions and update to the latest!). 
 - Options `msymbol()` and `lwidth()` now take lists. If there are less elements than the number of lines, then the last values are inherited by the remaining lines.
 - Added option `grid` which draws straight lines as grids rather than circles. 
 - Added options `rline()`, `rlinec()`, `rlinep()`, `rlinew()` for reference lines. Can take lists.
 - `c*()` options changes to `g*()` options to reflect grid line values. E.g. `ccolor()` changed to `gcolor()`.
 - `ra*()` options renamed to `g*()` options to reflect grid label values. E.g. `ralabelsize()` changed to `glabelsize()`.
+- Option `range()` now accepts numerical lists (numlist). This makes `cuts()` almost redundant but it can still be used if no custom range is specified and one needs to increase the number of cuts for auto-calculated ranges.
 - Option `gwidth()` added.
+- Several updates to defaults.
 - Minor code cleanups.
 
 **v1.4 (04 Oct 2024)**

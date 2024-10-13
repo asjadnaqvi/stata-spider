@@ -15,7 +15,7 @@ The command is based on the following guide on Medium: {browse "https://medium.c
 
 {cmd:spider} {it:var} {ifin} {weight}, 
                 {cmd:[} {cmd:by}({it:var}) {cmd:over}({it:var}) {cmd:alpha}({it:num 0-100}) {cmdab:ro:tate}({it:num}) {cmd:smooth}({it:num 0-1}) {cmd:palette}({it:str})
-                  {cmdab:ra:nge}({it:min max}) {cmd:cuts}({it:num}) {cmdab:lw:idth}({it:str}) {cmdab:lp:attern}({it:list}) {cmdab:msym:bol}({it:list}) {cmdab:rotatelab:el}
+                  {cmdab:ra:nge}({it:numlist}) {cmd:cuts}({it:num}) {cmdab:lw:idth}({it:str}) {cmdab:lp:attern}({it:list}) {cmdab:msym:bol}({it:list}) {cmdab:rotatelab:el}
                   {cmd:format}({it:fmt}) {cmdab:ralabs:ize}({it:str}) {cmdab:ralabc:olor}({it:str}) {cmdab:ralaba:ngle}({it:str}) {cmd:wrap}({it:num})
                   {cmdab:ms:ize}({it:str}) {cmdab:mlw:idth}({it:str}) {cmdab:displacel:ab}({it:num}) {cmdab:displaces:pike}({it:num}) 
                   {cmdab:grid} {cmdab:gc:olor}({it:str}) {cmdab:gw:idth}({it:str}) {cmdab:gp:attern}({it:str})
@@ -70,16 +70,15 @@ If a list is provided and the number of items are less than the number of lines,
 
 {ul:Spider grids}
 
-{p2coldent : {opt pad(num)}}Increase the min and max of the axis range by {opt pad()} percentage. Default is {opt pad(10)}.{p_end}
-
-{p2coldent : {opt ra:nge(min max)}}Use this option to define the grid range of the plot. Default values are the minimum and maximum of all the data
-points that are offset by {opt pad()} percent of the minmax range. This might not be optimal in all cases. For example, if you know that your data is between 0-100,
+{p2coldent : {opt ra:nge(numlist)}}Provide a list for the grids on the spider plot. Default range is the minimum and maximum of all the data
+points that is offset by {opt pad()} percent of the minmax difference. This might not be optimal in all cases. For example, if you know that your data is between 0-100,
 but the actual values are between 40-80, the graph range will automatically adjust the ranges to 36 and 84, or 40-0.1*(80-40) and 80+0.1*(80-40)
-respectively using the default {opt pad(10)}. In this case, it is better to define {opt ra:nge(0 100)} to control the scaling.{p_end}
+respectively using the default {opt pad(10)}. In this case, it is better to define a custom range e.g. {opt ra:nge(0(10)100)} to control the scaling.{p_end}
 
-{p2coldent : {opt cuts(num)}}The number of cuts to show in the graph as rings. Default value is {opt cuts(6)}. For example, if the range is 
-0-100, six cuts will split the data into 0,20,40,60,80,100. Or (100/5) + 1 because we also need to account for the starting value.
-Please keep this in mind when defining this option.{p_end}
+{p2coldent : {opt cuts(num)}}The number of cuts to show in the graph. Default value is {opt cuts(6)}. This option only works if
+{opt range()} is not used.{p_end}
+
+{p2coldent : {opt pad(num)}}Increase the min and max of the axis range by {opt pad()} percentage. Default is {opt pad(10)}.{p_end}
 
 {p2coldent : {opt grid}}If {opt grid} is specified, then straight lines form the grid, otherwise circles are used.{p_end}
 
