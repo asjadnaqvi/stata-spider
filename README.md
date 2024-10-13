@@ -240,6 +240,14 @@ spider index, by(policy) over(region) smooth(0) alpha(5) rot(30) format(%6.0f) x
 <img src="/figures/spider9_5.png" width="100%">
 
 
+Additional features from v1.6:
+
+```stata
+spider index if inlist(region,1,2), by(policy) over(region) smooth(0) alpha(10) rot(15) format(%6.0f) xsize(4) ysize(3) legpos(3) legcol(1) wrap(6) grid range(0 10 20 40 80) rline(35) msym(circle square) msize(0.8)
+```
+
+<img src="/figures/spider9_6.png" width="100%">
+
 ### Try a different scaling
 
 ```stata
