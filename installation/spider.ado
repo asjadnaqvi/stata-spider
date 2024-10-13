@@ -1,6 +1,8 @@
-*! spider v1.4 (04 Oct 2024)
+*! spider v1.5 (13 Oct 2024)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.5 	(13 Oct 2024): support for rline(). Grids are generated using graphfunctions rather than use internal Stata functions. Users can now specify marker and lp, lw lists.
+*                       renamed ra*() to g*() and c*() to g*() to represet grids. Added grid. Added lpattern().
 * v1.4  (04 Oct 2024): raformat() is now just format(), stat(mean|sum) added, weights allowed, varlist allowed, pad(), wrap()
 * v1.33	(02 Jul 2024): passthru bugs
 * v1.32	(11 Jun 2024): add wrap() for label wraps
@@ -27,23 +29,22 @@ program spider, sortpreserve
 version 15
  
 	syntax varlist(numeric) [if] [in] [aw fw pw iw/] ///
-		[ , by(varname) over(varname) alpha(real 10) ROtate(real 30) DISPLACELab(real 15) DISPLACESpike(real 2)  palette(string) 				] ///   	
-		[ RAnge(numlist min=2 max=2) cuts(real 6) smooth(numlist max=1 >=0 <=1) format(string)  RALABSize(string) ] ///
-		[ LWidth(string) MSYMbol(string) MSize(string) MLWIDth(string)  											] /// // spider properties
-		[ CColor(string) CWidth(string)	SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
+		[ , by(varname) over(varname) alpha(real 10) ROtate(real 0) DISPLACELab(real 15) DISPLACESpike(real 2) palette(string) ] ///   	
+		[ RAnge(numlist ascending min=2 max=2) cuts(real 6) smooth(numlist max=1 >=0 <=1) format(string)  ] ///
+		[ SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
 		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 3) LEGSize(real 2.2)  ] ///  // v1.2 updates.
-		[ RALABColor(string) RALABAngle(string) SLABColor(string) ROTATELABel ] ///  // v1.2X options
+		[ GLABColor(string) GLABSize(string) GLABAngle(string) SLABColor(string) ROTATELABel ] ///  // v1.2X options
 		[ xsize(real 1) ysize(real 1)  * ]	///
-		[ stat(string) unique pad(real 10) n(real 50) wrap(numlist >0 max=1) ] // v1.4 
-		
+		[ stat(string) unique pad(real 10) n(real 50) wrap(numlist >0 max=1) ] /// // v1.4 
+		[ LWidth(string) LPattern(string) MSYMbol(string) MSize(string) MLWIDth(string) GColor(string) GWidth(string) GPattern(string) grid OFFSet(real 0) ] /// // v1.5 
+		[ rline(numlist) RLINEColor(string) RLINEWidth(string) RLINEPattern(string)   ] 										 // v1.5 cont.
 		
 	// check dependencies
 	cap findfile colorpalette.ado
 	if _rc != 0 {
-		display as error "The palettes package is missing. Install the {stata ssc install palettes, replace:palettes} and {stata ssc install colrspace, replace:colrspace} packages."
+		display as error "The palettes package is missing. Please install the {stata ssc install palettes, replace:palettes} and {stata ssc install colrspace, replace:colrspace} packages."
 		exit
 	}
-	
 
 	cap findfile labmask.ado
 		if _rc != 0 quietly ssc install labutil, replace
@@ -60,14 +61,13 @@ version 15
 		display as error "{bf:unique} and {bf:range} cannot be specified together."
 		exit
 	}
-	
-	
-	
+
 	marksample touse, strok
 	
 
 quietly {
 preserve		
+
 	keep if `touse'
 	keep `varlist' `by' `over' `exp'
 	
@@ -202,9 +202,15 @@ preserve
 	/////////////////////
 	
 	if "`range'" != ""  {
+		
+		*local minmax : subinstr local `range' " " ",", all 
+		*local norm1 = min(`minmax')
+		*local norm2 = max(`minmax')
+		
 		tokenize `range'
 		local norm1 `1'
 		local norm2 `2'
+		
 	}
 	else {
 		sum `varlist', meanonly
@@ -217,41 +223,10 @@ preserve
 		local norm2 = `varmax' + `disp'
 	}
 	
-	
-	/*
-	if "`unique'" != "" & "`over'"!="" {
-		
-		levelsof `by', local(lvls)
-		
-		foreach x of local lvls {
 
-		
-			sum `varlist' if `by'==`x', meanonly
-			local varmin = r(min)
-			local varmax = r(max)
-		
+	// rescale variables between [0,100] from their global min/max. This ensures that negative numbers are there as well
+	replace `varlist' = ((`varlist' - `norm1') / (`norm2' - `norm1')) * 100
 
-			local disp = (`varmax' - `varmin') * (`pad' / 100)  // displace minmax by 10%
-		
-			local norm1 = `varmin' - `disp'
-			local norm2 = `varmax' + `disp'
-	
-			replace `varlist' = ((`varlist' - `norm1') / (`norm2' - `norm1')) * 100 if `by'==`x'
-	
-		}
-		
-	}
-	*/
-	*else {
-		
-
-	
-		// rescale variables between [0,100] from their global min/max. This ensures that negative numbers are there as well
-		replace `varlist' = ((`varlist' - `norm1') / (`norm2' - `norm1')) * 100
-	*}
-		
-
-	
 	sort `over' `by'  
 	bysort `over': gen _seq = _n
 	
@@ -290,32 +265,66 @@ preserve
 	
 
 	
-	/////////////////
-	//   circles   //
-	/////////////////	
+	///////////////
+	//   grids   //
+	///////////////
 	
 	
-	if "`ccolor'" == "" local ccolor gs12
-	if "`cwidth'" == "" local cwidth 0.1
+	if "`gcolor'" 	== "" local gcolor gs12
+	if "`gwidth'" 	== "" local gwidth 0.1
+	if "`gpattern'" == "" local gpattern solid
 	
-	// local sides = cond("`polygon'" == "",  300, `items')   // deal with later
 	
 	local gap = floor((100 - 0) / (`cuts' - 1))
 	
 		
-	if `gap' > _N {
-		local newobs = `gap' + 1
-		set obs `newobs'
+	if `gap' > _N 	set obs `=`gap' + 1'
+	
+	
+	cap drop _order _id _x _y
+	forval x = `gap'(`gap')100 {	
+		
+		if "`grid'"!= "" {
+			shapes circle, n(`items') rad(`x') rotate(`rotate') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
+		} 
+		else {
+			shapes circle, n(100) rad(`x')  rotate(`rotate') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
+		}
 	}
 	
+	local circle (line _gy _gx, cmissing(n) lc(`gcolor') lw(`gwidth') lp(`gpattern'))
 	
-	forval x = 0(`gap')100 {	
-		local circle `circle' (function sqrt(`x'^2 - x^2), lc(`ccolor') lw(`cwidth') lp(solid) range(-`x' `x') n(`sides')) || (function -sqrt(`x'^2 - x^2), lc(`ccolor') lw(`cwidth') lp(solid) range(-`x' `x')  n(`sides')) ||
+	
+	/////////////////////////
+	//   reference lines   //
+	/////////////////////////
+	
+	
+	if "`rline'" != "" {
+	
+		if "`rlinecolor'" 	== "" local rlinecolor black
+		if "`rlinewidth'" 	== "" local rlinewidth 0.3
+		if "`rlinepattern'" == "" local rlinepattern solid
+		
 
-	}	
+		foreach x of numlist `rline' {	
+			
+			local y = ((`x' - `norm1') / (`norm2' - `norm1')) * 100
+			
+			if "`grid'"!= "" {
+				shapes circle, n(`items') rad(`y') rotate(`rotate') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
+			} 
+			else {
+				shapes circle, n(100) rad(`y')  rotate(`rotate') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
+			}
+		}
+		
+		local reflines (line _ry _rx, cmissing(n) lc(`rlinecolor') lw(`rlinewidth') lp(`rlinepattern'))	
+	
+	}
 
 	///////////////////////
-	//   circle labels   //
+	//   grid labels   //
 	///////////////////////			
 	
 	
@@ -334,13 +343,13 @@ preserve
 		replace xvar =  `x'  in `i'	
 		replace yvar =  0  in `i'	
 	   
-		local i = `i' + 1 
+		local ++i
 	}			
 	
 		
-	/////////////////
-	//   spikes	   //
-	/////////////////	
+	////////////////////
+	//   grid spikes  //
+	////////////////////	
 
 	if "`scolor'" == "" local scolor gs12
 	if "`swidth'" == "" local swidth 0.1
@@ -352,7 +361,7 @@ preserve
 		local theta = `x' * 2 * _pi / `items'   
 		local liner = (100 + `displacespike') * cos(`theta' + `ro')
 		
-		local spike `spike' (function (tan(`theta' + `ro'))*x, n(2) range(0 `liner') lw(`swidth') lc(`scolor') lp(solid)) ||
+		local spike `spike' (function (tan(`theta' + `ro')) * x, n(2) range(0 `liner') lw(`swidth') lc(`scolor') lp(solid)) 
 		
 		}	
 
@@ -404,10 +413,12 @@ preserve
 	/////////////////	
 	
 	
-	if "`lwidth'"  == "" local lwidth  = 0.3
+	if "`lwidth'"  	== "" local lwidth   0.3
+	if "`lpattern'" == "" local lpattern solid
+	
 	if "`msymbol'" == "" local msymbol circle
-	if "`msize'"   == "" local msize   = 0.3
-	if "`mlwidth'" == "" local mlwidth = 0.3
+	if "`msize'"   == "" local msize   0.3
+	if "`mlwidth'" == "" local mlwidth 0.3
 	if "`palette'" == "" {
 		local palette tableau
 	}
@@ -422,21 +433,26 @@ preserve
 	
 	forval i = 1/`items' {
 	
+		// parse symbols
+		local mcount : word count `msymbol'
+		local mcount = min(`mcount', `i')
+		local mysym : word `mcount' of `msymbol'
+		
+		// parse line patterns
+		local lcount : word count `lpattern'
+		local lcount = min(`lcount', `i')
+		local myline : word `lcount' of `lpattern'		
 	
 		colorpalette `palette', nograph `poptions'
 		
 		if "`smooth'" == "" {
-			local spider  `spider'  (area y x if `over'==`i'    , nodropbase fi(100) fcolor("`r(p`i')'%`alpha'") lc("`r(p`i')'") lw(`lwidth')) 
-		
+			local spider  `spider'  (area y x if `over'==`i', nodropbase fi(100) fcolor("`r(p`i')'%`alpha'") lc("`r(p`i')'") lw(`lwidth') lp(`myline')) 
 		}
 		else {
-			local spider  `spider'  (area y`i'_pts x`i'_pts, nodropbase fi(100) fcolor("`r(p`i')'%`alpha'") lc("`r(p`i')'") lw(`lwidth')) 
-			
+			local spider  `spider'  (area y`i'_pts x`i'_pts , nodropbase fi(100) fcolor("`r(p`i')'%`alpha'") lc("`r(p`i')'") lw(`lwidth') lp(`myline')) 
 		}
 		
-		
-		local spider2 `spider2' (scatter y x if `over'==`i' , msize(`msize') mc("`r(p`i')'") msymbol("`msymbol'") mlwidth(`mlwidth')) 
-		
+		local spider2 `spider2' (scatter y x if `over'==`i' , msize(`msize') mc("`r(p`i')'") msymbol(`mysym') mlwidth(`mlwidth')) 
 		
 	}
 
@@ -454,7 +470,7 @@ preserve
 	
 		forval i = 1/`items' {
 			
-			local j = `i' + (`cuts' * 2) + `byitems' 
+			local j = `i' + 1 + `byitems' 
 			local varn : label `over' `i'
 		
 			local entries `" `entries' `j'  "`varn'"  "'
@@ -470,20 +486,21 @@ preserve
 	//   final graph	//
 	//////////////////////
 	
-	local axisr = 100 * (1.3)
-	if "`ralabsize'"  == "" local ralabsize = 1.8
-	if "`ralabcolor'" == "" local ralabcolor black
-	if "`ralabangle'" == "" local ralabangle 0
+	local axisr = 100 * (1 + (`offset' / 100))
+	if "`glabsize'"  == "" local glabsize  1.8
+	if "`glabcolor'" == "" local glabcolor black
+	if "`glabangle'" == "" local glabangle 0
 	
 	
-
+	
     twoway	///
 			`circle' 	///
 			`spike'	 	///
 			`spider'	///
 			`spider2'	///
 			`labs' 		///
-			(scatter yvar xvar, mc(none) mlab(xlab) mlabpos(0) mlabsize(`ralabsize') mlabcolor(`ralabcolor') mlabangle(`ralabangle') )  ///
+			(scatter yvar xvar, mc(none) mlab(xlab) mlabpos(0) mlabsize(`glabsize') mlabcolor(`glabcolor') mlabangle(`glabangle') )  ///
+			`reflines'	///
 						,    ///
 						aspect(1) xsize(`xsize') ysize(`ysize') ///	
 						xlabel(-`axisr' `axisr') ///
@@ -621,9 +638,7 @@ preserve
 	gen id = _n
 	reshape long Cx Cy t, i(id) j(spline)
 	sort spline t 
- 
-	*list Cy Cy spline
- 
+  
 	drop id spline t
 	gen _id = _n
 	order _id

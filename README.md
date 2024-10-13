@@ -9,8 +9,8 @@
 
 
 
-# spider v1.4
-(04 Oct 2024)
+# spider v1.5
+(13 Oct 2024)
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -25,7 +25,7 @@ The SSC version (**v1.33**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.4**):
+Or it can be installed from GitHub (**v1.5**):
 
 ```stata
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -63,26 +63,32 @@ The syntax for the latest version is as follows:
 
 ```stata
 spider var [if] [in] [weight], 
-                [ by(var) over(var) alpha(num 0-100) rotate(num) smooth(num 0-1)  palette(str)
-                  range(min max) cuts(num) lwidth(str) msymbol(str) rotatelabel
+                [ by(var) over(var) alpha(num 0-100) rotate(num) smooth(num 0-1) palette(str)
+                  range(min max) cuts(num) lwidth(str) lpattern(list) msymbol(list) rotatelabel
                   format(fmt) ralabsize(str) ralabcolor(str) ralabangle(str) wrap(num)
                   msize(str) mlwidth(str) displacelab(num) displacespike(num) 
-                  ccolor(str) cwidth(str) scolor(str) swidth(str) slabsize(str) slabcolor(str)
+                  grid gcolor(str) gwidth(str) gpattern(str)
+                  rline(numlist) rlinecolor(str) rlinewidth(str) rlinepattern(str)
+                  scolor(str) swidth(str) slabsize(str) slabcolor(str)
                   nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num) xsize(num) ysize(num)
-                  stat(mean|sum) pad(num) n(num)  * 
-                ]
+                  stat(mean|sum) pad(num) * ]
 ```
 
 See the help file `help spider` for details.
 
-The most basic use is as follows:
+Basic syntax 1: Wide form
 
+```stata
+spider variables, over(var)
 ```
-spider numeric variables, over(category variable)
+
+Basic syntax 2: Long form
+
+```stata
+spider variable, by(var) over(var)
 ```
 
-where `numeric variables` are a set of variables where each corresponds to a spider plot, and `over()` defines the categories.
-
+See help file for details.
 
 ## Citation guidelines
 Software packages take countless hours of programming, testing, and bug fixing. If you use this package, then a citation would be highly appreciated. Suggested citations:
@@ -94,15 +100,15 @@ Software packages take countless hours of programming, testing, and bug fixing. 
    author = {Naqvi, Asjad},
    title = {Stata package ``spider''},
    url = {https://github.com/asjadnaqvi/stata-spider},
-   version = {1.33},
-   date = {2024-07-02}
+   version = {1.5},
+   date = {2024-10-13}
 }
 ```
 
 *or simple text*
 
 ```
-Naqvi, A. (2024). Stata package "spider" version 1.33. Release date 02 July 2024. https://github.com/asjadnaqvi/stata-spider.
+Naqvi, A. (2024). Stata package "spider" version 1.5. Release date 13 October 2024. https://github.com/asjadnaqvi/stata-spider.
 ```
 
 
@@ -293,6 +299,48 @@ spider index*, over(region) smooth(0) alpha(5) wrap(5)
 <img src="/figures/spider13.png" width="100%">
 
 
+### v1.5 options: grid + lists + reference lines.
+
+Reload the data:
+
+```stata
+use "https://github.com/asjadnaqvi/stata-spider/blob/main/data/spider_data2.dta?raw=true", clear
+```
+
+
+```stata
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f)
+```
+
+<img src="/figures/spider14.png" width="100%">
+
+
+```stata
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f) grid
+```
+
+<img src="/figures/spider15.png" width="100%">
+
+```stata
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f) grid rline(25 50 75) rlinew(0.2) rlinec(black)
+```
+
+<img src="/figures/spider16.png" width="100%">
+
+```stata
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f) ///
+	msym(S T O +) msize(1.2)
+```
+
+<img src="/figures/spider17.png" width="100%">
+
+```stata
+spider index, by(policy) over(region) alpha(0) wrap(8) ra(0 80) cuts(5) format(%5.0f) ///
+	lp(dash solid dash)
+```
+
+<img src="/figures/spider18.png" width="100%">
+
 
 ### Bonus: Valentines day spending spider graph
 
@@ -327,6 +375,15 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 ## Change log
 
+**v1.5 (13 Oct 2024)**
+- Now requires dependency `graphfunctions`. 
+- Options `msymbol()` and `lwidth()` now take lists. If there are less elements than the number of lines, then the last values are inherited by the remaining lines.
+- Added option `grid` which draws straight lines as grids rather than circles. 
+- Added options `rline()`, `rlinec()`, `rlinep()`, `rlinew()` for reference lines. Can take lists.
+- `c*()` options changes to `g*()` options to reflect grid line values. E.g. `ccolor()` changed to `gcolor()`.
+- `ra*()` options renamed to `g*()` options to reflect grid label values. E.g. `ralabelsize()` changed to `glabelsize()`.
+- Option `gwidth()` added.
+- Minor code cleanups.
 
 **v1.4 (04 Oct 2024)**
 - Weights are now allowed.
