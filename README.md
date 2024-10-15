@@ -68,9 +68,8 @@ The syntax for the latest version is as follows:
 spider var [if] [in] [weight], 
                 [ by(var) over(var) alpha(num 0-100) rotate(num) smooth(num 0-1) palette(str)
                   range(numlist) cuts(num) lwidth(str) lpattern(list) msymbol(list) rotatelabel
-                  format(fmt) ralabsize(str) ralabcolor(str) ralabangle(str) wrap(num)
-                  msize(str) mlwidth(str) displacelab(num) displacespike(num) 
-                  grid gcolor(str) gwidth(str) gpattern(str)
+                  format(fmt) wrap(num) msize(str) mlwidth(str) displacelab(num) displacespike(num) grid  
+                  gcolor(str) gwidth(str) gpattern(str) glabsize(str) glabcolor(str) glabangle(str) glabopsition(str) 
                   rline(numlist) rlinecolor(str) rlinewidth(str) rlinepattern(str)
                   scolor(str) swidth(str) slabsize(str) slabcolor(str)
                   nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num) xsize(num) ysize(num)

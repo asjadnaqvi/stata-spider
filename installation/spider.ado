@@ -37,7 +37,7 @@ version 15
 		[ xsize(real 1) ysize(real 1)  * ]	///
 		[ stat(string) unique pad(real 10) n(real 50) wrap(numlist >0 max=1) ] /// // v1.4 
 		[ LWidth(string) LPattern(string) MSYMbol(string) MSize(string) MLWIDth(string) GColor(string) GWidth(string) GPattern(string) grid OFFSet(real 0) ] /// // v1.5 
-		[ rline(numlist) RLINEColor(string) RLINEWidth(string) RLINEPattern(string)   ] 										 // v1.5 cont.
+		[ rline(numlist) RLINEColor(string) RLINEWidth(string) RLINEPattern(string) GLABPOSition(string)   ] 										 // v1.5 cont.
 		
 	// check dependencies
 	cap findfile colorpalette.ado
@@ -511,7 +511,7 @@ preserve
 	if "`glabsize'"  == "" local glabsize  1.8
 	if "`glabcolor'" == "" local glabcolor black
 	if "`glabangle'" == "" local glabangle 0
-	
+	if "`glabposition'" == "" local glabposition 0
 	
 	
     twoway	///
@@ -520,7 +520,7 @@ preserve
 			`spider'	///
 			`spider2'	///
 			`labs' 		///
-			(scatter yvar xvar, mc(none) mlab(xlab) mlabpos(0) mlabsize(`glabsize') mlabcolor(`glabcolor') mlabangle(`glabangle') )  ///
+			(scatter yvar xvar, mc(none) mlab(xlab) mlabpos(`glabposition') mlabsize(`glabsize') mlabcolor(`glabcolor') mlabangle(`glabangle') )  ///
 			`reflines'	///
 						,    ///
 						aspect(1) xsize(`xsize') ysize(`ysize') ///	

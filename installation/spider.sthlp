@@ -16,9 +16,8 @@ The command is based on the following guide on Medium: {browse "https://medium.c
 {cmd:spider} {it:var} {ifin} {weight}, 
                 {cmd:[} {cmd:by}({it:var}) {cmd:over}({it:var}) {cmd:alpha}({it:num 0-100}) {cmdab:ro:tate}({it:num}) {cmd:smooth}({it:num 0-1}) {cmd:palette}({it:str})
                   {cmdab:ra:nge}({it:numlist}) {cmd:cuts}({it:num}) {cmdab:lw:idth}({it:str}) {cmdab:lp:attern}({it:list}) {cmdab:msym:bol}({it:list}) {cmdab:rotatelab:el}
-                  {cmd:format}({it:fmt}) {cmdab:ralabs:ize}({it:str}) {cmdab:ralabc:olor}({it:str}) {cmdab:ralaba:ngle}({it:str}) {cmd:wrap}({it:num})
-                  {cmdab:ms:ize}({it:str}) {cmdab:mlw:idth}({it:str}) {cmdab:displacel:ab}({it:num}) {cmdab:displaces:pike}({it:num}) 
-                  {cmdab:grid} {cmdab:gc:olor}({it:str}) {cmdab:gw:idth}({it:str}) {cmdab:gp:attern}({it:str})
+                  {cmd:format}({it:fmt}) {cmd:wrap}({it:num}) {cmdab:ms:ize}({it:str}) {cmdab:mlw:idth}({it:str}) {cmdab:displacel:ab}({it:num}) {cmdab:displaces:pike}({it:num}) {cmdab:grid}  
+                  {cmdab:gc:olor}({it:str}) {cmdab:gw:idth}({it:str}) {cmdab:gp:attern}({it:str}) {cmdab:glabs:ize}({it:str}) {cmdab:glabc:olor}({it:str}) {cmdab:glaba:ngle}({it:str}) {cmdab:glabops:ition}({it:str}) 
                   {cmd:rline({it:numlist})} {cmdab:rlinec:olor}({it:str}) {cmdab:rlinew:idth}({it:str}) {cmdab:rlinep:attern}({it:str})
                   {cmdab:sc:olor}({it:str}) {cmdab:sw:idth}({it:str}) {cmdab:slabs:ize}({it:str}) {cmdab:slabc:olor}({it:str})
                   {cmdab:noleg:end} {cmdab:legpos:iton}({it:num}) {cmdab:legpos:iton}({it:num}) {cmdab:legcol:umns}({it:num}) {cmdab:legs:ize}({it:num}) {cmd:xsize}({it:num}) {cmd:ysize}({it:num})
@@ -82,18 +81,19 @@ respectively using the default {opt pad(10)}. In this case, it is better to defi
 
 {p2coldent : {opt grid}}If {opt grid} is specified, then straight lines form the grid, otherwise circles are used.{p_end}
 
-{p2coldent : {opt gc:olor(str)}}The color of the grids. Default is {opt gc(gs12)}.{p_end}
+{p2coldent : {opt gc:olor(str)}}The color of the grids. The default is {opt gc(gs12)}.{p_end}
 
-{p2coldent : {opt gw:idth(str)}}The width of the grids. Default is {opt gw(0.1)}.{p_end}
+{p2coldent : {opt gw:idth(str)}}The width of the grids. The default is {opt gw(0.1)}.{p_end}
 
 {p2coldent : {opt gp:attern(str)}}The line pattern of the grids. Default is {opt gp(solid)}.{p_end}
 
-{p2coldent : {opt glabs:ize(str)}}The size of the grid labels. The default format is {opt glabs(1.8)}.{p_end}
+{p2coldent : {opt glabs:ize(str)}}The size of the grid labels. The default is {opt glabs(1.8)}.{p_end}
 
-{p2coldent : {opt glabc:olor(str)}}The color of the grid labels. The default format is {opt glabc(black)}.{p_end}
+{p2coldent : {opt glabc:olor(str)}}The color of the grid labels. The default is {opt glabc(black)}.{p_end}
 
-{p2coldent : {opt glaba:ngle(str)}}The angle of the grid labels. The default format is {opt glaba(0)} for horizontal.{p_end}
+{p2coldent : {opt glaba:ngle(str)}}The angle of the grid labels. The default is {opt glaba(0)} for horizontal.{p_end}
 
+{p2coldent : {opt glabpos:ition(str)}}The position of the grid labels. The default is {opt glabpos(0)}.{p_end}
 
 {ul:Reference lines}
 
