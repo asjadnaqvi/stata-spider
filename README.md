@@ -37,7 +37,10 @@ The `palettes` package is required to run this command:
 ```stata
 ssc install palettes, replace
 ssc install colrspace, replace
+ssc install graphfunctions, replace
 ```
+
+Please note that `graphfunctions` is a new program with features rolling out regularly. In case the SSC version is not working, please update it directly from the [graphfunctions](https://github.com/asjadnaqvi/stata-graphfunctions) repository. See the link for instructions.
 
 Even if you have the package installed, make sure that it is updated `ado update, update`.
 
