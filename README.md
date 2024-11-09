@@ -9,8 +9,8 @@
 
 
 
-# spider v1.5
-(13 Oct 2024)
+# spider v1.51
+(09 Nov 2024)
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -25,7 +25,7 @@ The SSC version (**v1.5**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.5**):
+Or it can be installed from GitHub (**v1.51**):
 
 ```stata
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -402,6 +402,14 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 
 ## Change log
+
+**v1.51 (09 Nov 2024)**
+A minor release with some major changes
+- Starting point is now the 12 o' clock (North) position. This has been requested countless times. One can still rotate by 90 degrees to start from the old (Stata) default 3 o' clock (East) position.
+- Draw order is now clockwise. Again requested a lot. Users can change the direction to counter-clockwise by using the new option `flip`.
+- Labels are now on the starting north-facing line.
+- Fix a bug where non-integer values under certain conditions were causing the program to crash.
+- Minor Code cleanups.
 
 **v1.5 (13 Oct 2024)**
 - Now requires dependency [graphfunctions](https://github.com/asjadnaqvi/stata-graphfunctions) (check versions and update to the latest!). 

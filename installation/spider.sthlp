@@ -1,7 +1,7 @@
 {smcl}
-{* 13Oct2024}{...}
+{* 09Nov2024}{...}
 {hi:help spider}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.5 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.51 (GitHub)}}
 
 {hline}
 
@@ -14,7 +14,7 @@ The command is based on the following guide on Medium: {browse "https://medium.c
 {p 8 15 2}
 
 {cmd:spider} {it:var} {ifin} {weight}, 
-                {cmd:[} {cmd:by}({it:var}) {cmd:over}({it:var}) {cmd:alpha}({it:num 0-100}) {cmdab:ro:tate}({it:num}) {cmd:smooth}({it:num 0-1}) {cmd:palette}({it:str})
+                {cmd:[} {cmd:by}({it:var}) {cmd:over}({it:var}) {cmd:alpha}({it:num 0-100}) {cmdab:ro:tate}({it:num}) {cmd:smooth}({it:num 0-1}) {cmd:palette}({it:str}) {cmd:flip}
                   {cmdab:ra:nge}({it:numlist}) {cmd:cuts}({it:num}) {cmdab:lw:idth}({it:str}) {cmdab:lp:attern}({it:list}) {cmdab:msym:bol}({it:list}) {cmdab:rotatelab:el}
                   {cmd:format}({it:fmt}) {cmd:wrap}({it:num}) {cmdab:ms:ize}({it:str}) {cmdab:mlw:idth}({it:str}) {cmdab:displacel:ab}({it:num}) {cmdab:displaces:pike}({it:num}) {cmdab:grid}  
                   {cmdab:gc:olor}({it:str}) {cmdab:gw:idth}({it:str}) {cmdab:gp:attern}({it:str}) {cmdab:glabs:ize}({it:str}) {cmdab:glabc:olor}({it:str}) {cmdab:glaba:ngle}({it:str}) {cmdab:glabops:ition}({it:str}) 
@@ -49,8 +49,10 @@ If {opt smooth()} is not specified, then the figure will show a simple connected
 
 {p2coldent : {opt wrap(num)}}Wrap the labels after a specific number of characters. Word boundaries are respected. Requires the latest {stata help graphfunctions:graphfunctions} package.{p_end}
 
+{p2coldent : {opt flip}}Flip the direction from clockwise (default) to counter-clockwise.{p_end}
 
-{ul:Spider}
+
+   {ul:Spider lines and area}
 
 {p2coldent : {opt alpha(num)}}The transparency of the spider area fills. The value ranges from 0-100, where 0 is no fill and 100 is fully filled. Default is {opt alpha(10)}.{p_end}
 
@@ -67,7 +69,7 @@ If a list is provided and the number of items are less than the number of lines,
 {p2coldent : {opt ms:ize(str)}}The marker size on the spider lines. Default is {opt ms(0.3)}.{p_end}
 
 
-{ul:Spider grids}
+   {ul:Spider grids}
 
 {p2coldent : {opt ra:nge(numlist)}}Provide a list for the grids on the spider plot. Default range is the minimum and maximum of all the data
 points that is offset by {opt pad()} percent of the minmax difference. This might not be optimal in all cases. For example, if you know that your data is between 0-100,
@@ -95,7 +97,8 @@ respectively using the default {opt pad(10)}. In this case, it is better to defi
 
 {p2coldent : {opt glabpos:ition(str)}}The position of the grid labels. The default is {opt glabpos(0)}.{p_end}
 
-{ul:Reference lines}
+
+   {ul:Reference lines}
 
 {p2coldent : {opt rline(numlist)}}Define a list of reference lines.{p_end}
 
@@ -106,7 +109,7 @@ respectively using the default {opt pad(10)}. In this case, it is better to defi
 {p2coldent : {opt rlinep:attern(str)}}The line pattern of the reference lines. Default is {opt rlinep(solid)}.{p_end}
 
 
-{ul:Spikes}
+   {ul:Spikes}
 
 {p2coldent : {opt sc:olor(str)}}The color of the spikes. Default is {opt sc(gs12)}.{p_end}
 
@@ -115,7 +118,7 @@ respectively using the default {opt pad(10)}. In this case, it is better to defi
 {p2coldent : {opt slabs:ize(str)}}The width of the spike labels. Default is {opt slabs(2.2)}.{p_end}
 
 
-{ul:Spike labels}
+   {ul:Spike labels}
 
 {p2coldent : {opt slabc:olor(str)}}The color of the spike labels. Default is {opt slabc(black)}.{p_end}
 
@@ -127,7 +130,7 @@ The default value is {opt displaces(2)} for 2%.{p_end}
 {p2coldent : {opt displacel:ab(num)}}Push {opt over()} labels away from the spikes. The default value is {opt displacel(15)} or 15% of spike length.{p_end}
 
 
-{ul:Legend}
+   {ul:Legend}
 
 {p2coldent : {opt legpos:ition(num)}}Clock position of the legend. Default is {opt legpos(6)}.{p_end}
 
@@ -179,8 +182,8 @@ Naqvi, A. (2024). Stata package "spider" version 1.4. Release date 13 October 20
 
 {title:Package details}
 
-Version      : {bf:spider} v1.5
-This release : 13 Oct 2024
+Version      : {bf:spider} v1.51
+This release : 09 Nov 2024
 First release: 13 Oct 2022
 Repository   : {browse "https://github.com/asjadnaqvi/stata-spider":GitHub}
 Keywords     : Stata, graph, spider plot

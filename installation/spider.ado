@@ -1,6 +1,7 @@
-*! spider v1.5 (13 Oct 2024)
+*! spider v1.51 (09 Nov 2024)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.51 (09 Nov 2024): added flip to change orientation. starting position is now by default on the top. fixed a bug in generating gaps.
 * v1.5 	(13 Oct 2024): support for rline(). Grids are generated using graphfunctions rather than use internal Stata functions. Users can now specify marker and lp, lw lists.
 *                       renamed ra*() to g*() and c*() to g*() to represet grids. Added grid. Added lpattern().
 * v1.4  (04 Oct 2024): raformat() is now just format(), stat(mean|sum) added, weights allowed, varlist allowed, pad(), wrap()
@@ -15,12 +16,9 @@
 * v1.1  (22 Dec 2022): Minor fixes.
 * v1.0  (13 Oct 2022): Beta release.
 
-**********************************
-* Step-by-step guide on Medium   *
-**********************************
 
-* Based on this guide:
-* Spider plots (26 Jan, 2021) https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73
+// Based on this guide:
+// Spider plots (26 Jan, 2021) https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73
 
 cap program drop spider
 
@@ -37,7 +35,7 @@ version 15
 		[ xsize(real 1) ysize(real 1)  * ]	///
 		[ stat(string) unique pad(real 10) n(real 50) wrap(numlist >0 max=1) ] /// // v1.4 
 		[ LWidth(string) LPattern(string) MSYMbol(string) MSize(string) MLWIDth(string) GColor(string) GWidth(string) GPattern(string) grid OFFSet(real 0) ] /// // v1.5 
-		[ rline(numlist) RLINEColor(string) RLINEWidth(string) RLINEPattern(string) GLABPOSition(string)   ] 										 // v1.5 cont.
+		[ rline(numlist) RLINEColor(string) RLINEWidth(string) RLINEPattern(string) GLABPOSition(string) flip  ] // v1.5 cont.
 		
 	// check dependencies
 	cap findfile colorpalette.ado
@@ -102,7 +100,6 @@ preserve
 			drop if missing(`x')
 			
 			// somewhere here preserve unique values
-			
 			ren `x' _val`i'
 
 			if "`: var label _val`i''" != "" {
@@ -148,7 +145,6 @@ preserve
 		else { // if numeric with value label
 			labmask _by, val(`by')
 		}
-		
 		local by _by 
 	}	
 	
@@ -191,7 +187,6 @@ preserve
 	
 	
 	if "`stat'" == "" local stat mean
-	
 	if "`weight'" != "" local myweight  [`weight' = `exp']
 	
 	collapse (`stat') `varlist' `myweight', by(`by' `over')
@@ -221,7 +216,7 @@ preserve
 		local norm2 = ceil(`varmax' + `disp')
 	}
 	
-	
+	di "`norm1', `norm2'"
 
 	// rescale variables between [0,100] from their global min/max. This ensures that negative numbers are there as well
 	
@@ -229,13 +224,21 @@ preserve
 
 
 	sort `over' `by'  
-	bysort `over': gen _seq = _n
+	bysort `over': gen _seq = _n - 1
 	
 	levelsof `by'
 	local items = r(r)
 
-	local ro = `rotate' * _pi / 180  	
-	gen double angle = (_seq * 2 * _pi / `items') + `ro'
+	
+	if "`flip'"=="" {
+		local pi = -1 * _pi // default is now clockwise
+	}
+	else {
+		local pi = _pi
+	}
+	
+	local ro = (`rotate' + 90) * _pi / 180  	// default starting is now North
+	gen double angle = (_seq * 2 * `pi' / `items') + `ro'
 
 
 	//////////////////////////
@@ -248,23 +251,17 @@ preserve
 		sort _over _by 
 		
 		if "`smooth'" != "" {
-		
-		
 			levelsof `over', local(lvls)
 			
 			foreach x of local lvls {
-				
 				cap drop _m
-				
 				smoother y x if `over'==`x' , rho(`smooth')	obs(`n')
 				ren Cx x`x'_pts   // 
-				ren Cy y`x'_pts   // 
-
+				ren Cy y`x'_pts   //
 			}		
 		}
 	
-
-
+	
 	
 	///////////////
 	//   grids   //
@@ -279,29 +276,34 @@ preserve
 	if "`range'"== "" {
 		
 		local gap = (`norm2' - `norm1') / (`cuts' - 1)
-		if `gap' > _N 	set obs `=`gap' + 1'
+	
+		if ceil(`gap') > _N 	set obs `=ceil(`gap') + 1'
 
 		numlist "`norm1'(`gap')`norm2'"
 		local pnum1 = "`r(numlist)'"
 		local pnum2 : subinstr  local pnum1 " " "," , all
 	}
+
 	
+	*cap drop _order _id _x _y
 	
-	cap drop _order _id _x _y
+	local rogrid = `rotate' + 90
 	
 	foreach x of local pnum1 {	
 
 		local y = ((`x' - `norm1') / (`norm2' - `norm1')) * 100
-		
+
 		if "`grid'"!= "" {
-			shapes circle, n(`items') rad(`y') rotate(`rotate') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
+			shapes circle, n(`items') rad(`y') rotate(`rogrid') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
 		} 
 		else {
-			shapes circle, n(100) rad(`y') rotate(`rotate') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
+			shapes circle, n(100) rad(`y') rotate(`rogrid') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
 		}
 	}
 	
 	local circle (line _gy _gx, cmissing(n) lc(`gcolor') lw(`gwidth') lp(`gpattern'))
+	
+	
 	
 	
 	/////////////////////////
@@ -323,10 +325,10 @@ preserve
 			*local y = `x'
 			
 			if "`grid'"!= "" {
-				shapes circle, n(`items') rad(`y') rotate(`rotate') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
+				shapes circle, n(`items') rad(`y') rotate(`rogrid') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
 			} 
 			else {
-				shapes circle, n(100) rad(`y')  rotate(`rotate') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
+				shapes circle, n(100) rad(`y')  rotate(`rogrid') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
 			}
 		}
 		
@@ -356,8 +358,8 @@ preserve
 		local y = ((`x' - `norm1') / (`norm2' - `norm1')) * 100
 		
 		replace xlab = string(`x', "`format'")  in `i' 
-		replace xvar =  `y'  in `i'	
-		replace yvar =  0  in `i'	
+		replace yvar =  `y'  in `i'	
+		replace xvar =  0  in `i'	
 	   
 		local ++i
 	}			
@@ -508,9 +510,9 @@ preserve
 	//////////////////////
 	
 	local axisr = 100 * (1 + (`offset' / 100))
-	if "`glabsize'"  == "" local glabsize  1.8
-	if "`glabcolor'" == "" local glabcolor black
-	if "`glabangle'" == "" local glabangle 0
+	if "`glabsize'"  	== "" local glabsize  1.8
+	if "`glabcolor'" 	== "" local glabcolor black
+	if "`glabangle'" 	== "" local glabangle 0
 	if "`glabposition'" == "" local glabposition 0
 	
 	
