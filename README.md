@@ -409,6 +409,7 @@ A minor release with some major changes
 - Starting point is now the 12 o' clock (North) position. This has been requested countless times. One can still rotate by 90 degrees to start from the old (Stata) default 3 o' clock (East) position.
 - Draw order is now clockwise. Again requested a lot. Users can change the direction to counter-clockwise by using the new option `flip`.
 - Labels are now on the starting north-facing line.
+- First category now correctly shows on the first position. Previously it was on the second position.
 - Fix a bug where non-integer values under certain conditions were causing the program to crash.
 - Minor Code cleanups.
 
