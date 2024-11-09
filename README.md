@@ -404,6 +404,7 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 ## Change log
 
 **v1.51 (09 Nov 2024)**
+
 A minor release with some major changes
 - Starting point is now the 12 o' clock (North) position. This has been requested countless times. One can still rotate by 90 degrees to start from the old (Stata) default 3 o' clock (East) position.
 - Draw order is now clockwise. Again requested a lot. Users can change the direction to counter-clockwise by using the new option `flip`.
