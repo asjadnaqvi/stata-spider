@@ -9,8 +9,8 @@
 
 
 
-# spider v1.52
-(07 Jan 2025)
+# spider v1.53
+(14 Jan 2025)
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -25,7 +25,7 @@ The SSC version (**v1.51**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.52**):
+Or it can be installed from GitHub (**v1.53**):
 
 ```stata
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -403,8 +403,13 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 ## Change log
 
+**v1.53 (14 Jan 2025)**
+- Added checks for dependencies.
+- Several bug fixes.
+
 **v1.52 (07 Jan 2025)**
-- Fix a bug where missing values were resulting in the wrong categories. 
+- Fix a major bug where missing values were resulting in the wrong categories. 
+- Various other bug fixes.
 
 **v1.51 (09 Nov 2024)**
 A minor release with some major changes

@@ -1,7 +1,7 @@
 {smcl}
-{* 07Jan2025}{...}
+{* 14Jan2025}{...}
 {hi:help spider}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.52 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.53 (GitHub)}}
 
 {hline}
 
@@ -173,8 +173,8 @@ Please note that the GitHub version might be newer than the SSC version.
 
 {title:Package details}
 
-Version      : {bf:spider} v1.52
-This release : 07 Jan 2025
+Version      : {bf:spider} v1.53
+This release : 14 Jan 2025
 First release: 13 Oct 2022
 Repository   : {browse "https://github.com/asjadnaqvi/stata-spider":GitHub}
 Keywords     : Stata, graph, spider plot
@@ -194,9 +194,8 @@ BlueSky      : {browse "https://bsky.app/profile/asjadnaqvi.bsky.social":@asjadn
 
 
 {title:Other visualization packages}
-
 {psee}
-    {helpb arcplot}, {helpb alluvial}, {helpb bimap}, {helpb bumparea}, {helpb bumpline}, {helpb circlebar}, {helpb circlepack}, {helpb clipgeo}, {helpb delaunay}, {helpb graphfunctions}, {helpb joyplot}, 
+    {helpb arcplot}, {helpb alluvial}, {helpb bimap}, {helpb bumparea}, {helpb bumpline}, {helpb circlebar}, {helpb circlepack}, {helpb clipgeo}, {helpb delaunay}, {helpb graphfunctions}, {helpb geoboundary}, {helpb geoflow}, {helpb joyplot}, 
 	{helpb marimekko}, {helpb polarspike}, {helpb sankey}, {helpb schemepack}, {helpb spider}, {helpb splinefit}, {helpb streamplot}, {helpb sunburst}, {helpb ternary}, {helpb treecluster}, {helpb treemap}, {helpb trimap}, {helpb waffle}
 
-or visit {browse "https://github.com/asjadnaqvi":GitHub}.
+Visit {browse "https://github.com/asjadnaqvi":GitHub} for further information.

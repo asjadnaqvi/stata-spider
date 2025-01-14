@@ -1,6 +1,7 @@
-*! spider v1.52 (07 Jan 2025)
+*! spider v1.53 (13 Jan 2025)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.53 (13 Jan 2025): bug fixes.
 * v1.52 (07 Jan 2025): Data is now rectanguarlized properly.
 * v1.51 (09 Nov 2024): added flip to change orientation. starting position is now by default on the top. fixed a bug in generating gaps.
 * v1.5 	(13 Oct 2024): support for rline(). Grids are generated using graphfunctions rather than use internal Stata functions. Users can now specify marker and lp, lw lists.
@@ -87,14 +88,18 @@ preserve
 	}
 		
 	if `length' > 1 & "`by'" != "" {	
-		di as error "If more than one variable are specified then {bf:by()} is not required."
+		di as error "{bf:by()} is not allowed if more than one variable is specified."
 		exit
 	}
 	
+
+	if `length'==1 {
+		fillin `by' `over'  // rectanguarlize
+		drop _fillin
+	}
+
 	
 	
-	fillin `by' `over'  // rectanguarlize
-	drop _fillin
 	
 	foreach x of local varlist {
 		recode `x' (.=0)  // fill the series
@@ -102,6 +107,8 @@ preserve
 	
 	// parse varlists 
 	if `length' > 1 {
+		
+		di "Here parsing"
 		
 		// store the info
 		local i = 1
@@ -536,8 +543,7 @@ preserve
 							`mylegend' ///
 							`options'
 								
-									
-			
+								
 	*/
 		
 restore						
