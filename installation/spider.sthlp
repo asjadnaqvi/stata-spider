@@ -19,8 +19,8 @@ The command is based on the following guide on Medium: {browse "https://medium.c
                   {cmd:format}({it:fmt}) {cmd:wrap}({it:num}) {cmdab:ms:ize}({it:str}) {cmdab:mlw:idth}({it:str}) {cmdab:displacel:ab}({it:num}) {cmdab:displaces:pike}({it:num}) {cmdab:grid}  
                   {cmdab:gc:olor}({it:str}) {cmdab:gw:idth}({it:str}) {cmdab:gp:attern}({it:str}) {cmdab:glabs:ize}({it:str}) {cmdab:glabc:olor}({it:str}) {cmdab:glaba:ngle}({it:str}) {cmdab:glabops:ition}({it:str}) 
                   {cmd:rline({it:numlist})} {cmdab:rlinec:olor}({it:str}) {cmdab:rlinew:idth}({it:str}) {cmdab:rlinep:attern}({it:str})
-                  {cmdab:sc:olor}({it:str}) {cmdab:sw:idth}({it:str}) {cmdab:slabs:ize}({it:str}) {cmdab:slabc:olor}({it:str})
-                  {cmdab:noleg:end} {cmdab:legpos:ition}({it:num}) {cmdab:legcol:umns}({it:num}) {cmdab:legs:ize}({it:num}) {cmd:xsize}({it:num}) {cmd:ysize}({it:num})
+                  {cmdab:sc:olor}({it:str}) {cmdab:sw:idth}({it:str}) {cmdab:slabs:ize}({it:str}) {cmdab:slabc:olor}({it:str}) {cmdab:noleg:end} 
+                  {cmdab:legpos:ition}({it:num}) {cmdab:legcol:umns}({it:num}) {cmdab:legs:ize}({it:num}) {cmdab:legopt:ions}({it:str}) {cmd:xsize}({it:num}) {cmd:ysize}({it:num})
                   {cmd:stat}({it:mean}|{it:sum}) {cmd:pad}({it:num}) * {cmd:]}
 
 {p 4 4 2}
@@ -138,8 +138,9 @@ The default value is {opt displaces(2)} for 2%.{p_end}
 
 {p2coldent : {opt legs:ize(num)}}Size of legend entries. Default is {opt legs(2.2)}.{p_end}
 
-{p2coldent : {opt nolegend}}Hide the legend.{p_end}
+{p2coldent : {opt legopt:ions(str)}}All other legend() options not specified above. This allows users to micro finetune the plot.{p_end}
 
+{p2coldent : {opt nolegend}}Hide the legend.{p_end}
 
 
 {p2coldent : {opt *}}All other standard twoway options not elsewhere specified.{p_end}

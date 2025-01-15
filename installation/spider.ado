@@ -1,7 +1,7 @@
-*! spider v1.53 (13 Jan 2025)
+*! spider v1.53 (14 Jan 2025)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
-* v1.53 (13 Jan 2025): bug fixes.
+* v1.53 (14 Jan 2025): bug fixes.
 * v1.52 (07 Jan 2025): Data is now rectanguarlized properly.
 * v1.51 (09 Nov 2024): added flip to change orientation. starting position is now by default on the top. fixed a bug in generating gaps.
 * v1.5 	(13 Oct 2024): support for rline(). Grids are generated using graphfunctions rather than use internal Stata functions. Users can now specify marker and lp, lw lists.
@@ -37,7 +37,8 @@ version 15
 		[ xsize(real 1) ysize(real 1)  * ]	///
 		[ stat(string) unique pad(real 10) n(real 50) wrap(numlist >0 max=1) ] /// // v1.4 
 		[ LWidth(string) LPattern(string) MSYMbol(string) MSize(string) MLWIDth(string) GColor(string) GWidth(string) GPattern(string) grid OFFSet(real 0) ] /// // v1.5 
-		[ rline(numlist) RLINEColor(string) RLINEWidth(string) RLINEPattern(string) GLABPOSition(string) flip  ] // v1.5 cont.
+		[ rline(numlist) RLINEColor(string) RLINEWidth(string) RLINEPattern(string) GLABPOSition(string) flip  ] /// // v1.5 cont.
+		[ LEGOPTions(string) ] 
 		
 	// check dependencies
 	cap findfile colorpalette.ado
@@ -510,7 +511,7 @@ preserve
 			local entries `" `entries' `j'  "`varn'"  "'
 		}
 	
-		local mylegend legend(order("`entries'") pos(`legposition') size(`legsize') col(`legcolumns')) 
+		local mylegend legend(order("`entries'") pos(`legposition') size(`legsize') col(`legcolumns') `legoptions') 
 		
 	}
 	
