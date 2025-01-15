@@ -404,7 +404,9 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 ## Change log
 
 **v1.53 (14 Jan 2025)**
+- Several code updates.
 - Added checks for dependencies.
+- `legoptions()` added to allow users to micro finetune the legends.
 - Several bug fixes.
 
 **v1.52 (07 Jan 2025)**
