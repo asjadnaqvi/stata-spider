@@ -94,22 +94,9 @@ preserve
 	}
 	
 
-	if `length'==1 {
-		fillin `by' `over'  // rectanguarlize
-		drop _fillin
-	}
-
-	
-	
-	
-	foreach x of local varlist {
-		recode `x' (.=0)  // fill the series
-	}
 	
 	// parse varlists 
 	if `length' > 1 {
-		
-		di "Here parsing"
 		
 		// store the info
 		local i = 1
@@ -202,20 +189,30 @@ preserve
 			local over _over 
 		}	
 	}
+
+	if `length'==1 {
+		fillin `by' `over'  // rectanguarlize
+		drop _fillin
+	}	
 	
+	foreach x of local varlist {
+		recode `x' (.=0)  // fill the series
+	}	
+
 	
 	if "`stat'" == "" local stat mean
 	if "`weight'" != "" local myweight  [`weight' = `exp']
 	
 	collapse (`stat') `varlist' `myweight', by(`by' `over')
 
+	
 
 	/////////////////////
 	// set the scales  //  
 	/////////////////////
 	
 	if "`range'" != ""  {
-			
+
 		local pnum1 "`range'"
 		local pnum2 : subinstr  local pnum1 " " "," , all
 		
