@@ -32,7 +32,7 @@ net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spi
 ```
 
 
-The `palettes` package is required to run this command:
+The following dependencies are required:
 
 ```stata
 ssc install palettes, replace
@@ -93,28 +93,10 @@ spider variable, by(var) over(var)
 See help file for details.
 
 ## Citation guidelines
-Software packages take countless hours of programming, testing, and bug fixing. If you use this package, then a citation would be highly appreciated. Suggested citations:
 
-*in BibTeX*
+Software packages take countless hours of programming, testing, and bug fixing. If you use this package, then a citation would be highly appreciated. 
 
-```
-@software{spider,
-   author = {Naqvi, Asjad},
-   title = {Stata package ``spider''},
-   url = {https://github.com/asjadnaqvi/stata-spider},
-   version = {1.5},
-   date = {2024-10-13}
-}
-```
-
-*or simple text*
-
-```
-Naqvi, A. (2024). Stata package "spider" version 1.5. Release date 13 October 2024. https://github.com/asjadnaqvi/stata-spider.
-```
-
-
-*or see [SSC citation](https://ideas.repec.org/c/boc/bocode/s459136.html) (updated once a new version is submitted)*
+The [SSC citation](https://ideas.repec.org/c/boc/bocode/s459136.html) is recommended. Please note that the GitHub version might be newer than the SSC version.
 
 
 ## Examples
