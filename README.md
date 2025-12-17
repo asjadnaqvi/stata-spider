@@ -387,7 +387,7 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 
 **v1.54 (17 Dec 2025)**
-- Fixed a zero radius issued being raised by `graphfunctions` that now have stricter checks.
+- Fixed a zero radius issue being raised by `graphfunctions` that now have stricter checks.
 
 **v1.53 (14 Jan 2025)**
 - Several code updates.
