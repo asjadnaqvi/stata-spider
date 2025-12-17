@@ -1,7 +1,8 @@
-*! spider v1.53 (14 Jan 2025)
+*! spider v1.54 (17 Dec 2025)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
-* v1.53 (14 Jan 2025): bug fixes.
+* v1.54 (17 Dec 2025): Fixed a zero radius bug.
+* v1.53 (14 Jan 2025): Bug fixes.
 * v1.52 (07 Jan 2025): Data is now rectanguarlized properly.
 * v1.51 (09 Nov 2024): added flip to change orientation. starting position is now by default on the top. fixed a bug in generating gaps.
 * v1.5 	(13 Oct 2024): support for rline(). Grids are generated using graphfunctions rather than use internal Stata functions. Users can now specify marker and lp, lw lists.
@@ -281,7 +282,7 @@ preserve
 	//   grids   //
 	///////////////
 	
-	
+
 	if "`gcolor'" 	== "" local gcolor gs12
 	if "`gwidth'" 	== "" local gwidth 0.1
 	if "`gpattern'" == "" local gpattern solid
@@ -305,12 +306,14 @@ preserve
 	foreach x of local pnum1 {	
 
 		local y = ((`x' - `norm1') / (`norm2' - `norm1')) * 100
-
-		if "`grid'"!= "" {
-			shapes circle, n(`items') rad(`y') rotate(`rogrid') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
-		} 
-		else {
-			shapes circle, n(100) rad(`y') rotate(`rogrid') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
+		
+		if `y' > 0 {
+			if "`grid'"!= ""  {
+				shapes circle, n(`items') radius(`y') rotate(`rogrid') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
+			} 
+			else {
+				shapes circle, n(100) radius(`y') rotate(`rogrid') genx(_gx) geny(_gy) genid(_gid) genorder(_go) stack		
+			}
 		}
 	}
 	
@@ -334,13 +337,12 @@ preserve
 			
 			local y = ((`x' - `norm1') / (`norm2' - `norm1')) * 100
 			
-			*local y = `x'
-			
+		
 			if "`grid'"!= "" {
-				shapes circle, n(`items') rad(`y') rotate(`rogrid') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
+				shapes circle, n(`items') radius(`y') rotate(`rogrid') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
 			} 
 			else {
-				shapes circle, n(100) rad(`y')  rotate(`rogrid') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
+				shapes circle, n(100) radius(`y')  rotate(`rogrid') genx(_rx) geny(_ry) genid(_rid) genorder(_ro) stack		
 			}
 		}
 		

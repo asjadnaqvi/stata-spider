@@ -1,7 +1,7 @@
 {smcl}
-{* 14Jan2025}{...}
+{* 17Dec2025}{...}
 {hi:help spider}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.53 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-spider":spider v1.54 (GitHub)}}
 
 {hline}
 
@@ -174,8 +174,8 @@ Please note that the GitHub version might be newer than the SSC version.
 
 {title:Package details}
 
-Version      : {bf:spider} v1.53
-This release : 14 Jan 2025
+Version      : {bf:spider} v1.54
+This release : 17 Dec 2025
 First release: 13 Oct 2022
 Repository   : {browse "https://github.com/asjadnaqvi/stata-spider":GitHub}
 Keywords     : Stata, graph, spider plot
