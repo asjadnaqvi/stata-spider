@@ -1,6 +1,7 @@
-*! spider v1.54 (17 Dec 2025)
+*! spider v1.6 (12 May 2026)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.6  (12 May 2026): rotatelab(), better handling of wide and long form of data. sort added.
 * v1.54 (17 Dec 2025): Fixed a zero radius bug.
 * v1.53 (14 Jan 2025): Bug fixes.
 * v1.52 (07 Jan 2025): Data is now rectanguarlized properly.
@@ -34,12 +35,12 @@ version 15
 		[ RAnge(numlist ascending) cuts(real 6) smooth(numlist max=1 >=0 <=1) format(string)  ] ///
 		[ SColor(string) SWidth(string) SLABSize(string)								] /// // circle = C, spikes = S
 		[ NOLEGend LEGPOSition(real 6) LEGCOLumns(real 3) LEGSize(real 2.2)  ] ///  // v1.2 updates.
-		[ GLABColor(string) GLABSize(string) GLABAngle(string) SLABColor(string) ROTATELABel ] ///  // v1.2X options
+		[ GLABColor(string) GLABSize(string) GLABAngle(string) SLABColor(string) ROTATELAB(numlist max=1) ] ///  // v1.2X options
 		[ xsize(real 1) ysize(real 1)  * ]	///
 		[ stat(string) unique pad(real 10) n(real 50) wrap(numlist >0 max=1) ] /// // v1.4 
 		[ LWidth(string) LPattern(string) MSYMbol(string) MSize(string) MLWIDth(string) GColor(string) GWidth(string) GPattern(string) grid OFFSet(real 0) ] /// // v1.5 
 		[ rline(numlist) RLINEColor(string) RLINEWidth(string) RLINEPattern(string) GLABPOSition(string) flip  ] /// // v1.5 cont.
-		[ LEGOPTions(string) ] 
+		[ LEGOPTions(string) sort ] 
 		
 	// check dependencies
 	cap findfile colorpalette.ado
@@ -53,6 +54,9 @@ version 15
 	
 	cap findfile labsplit.ado
 		if _rc != 0 quietly ssc install graphfunctions, replace	
+
+	*cap findfile gtools.ado
+	*	if _rc != 0 quietly ssc install gtools, replace			
 	
 	if "`stat'" != "" & !inlist("`stat'", "mean", "sum") {
 		display as error "Valid options are {bf:stat(mean)} [default] or {bf:stat(sum)}."
@@ -89,8 +93,8 @@ preserve
 		}
 	}
 		
-	if `length' > 1 & "`by'" != "" {	
-		di as error "{bf:by()} is not allowed if more than one variable is specified."
+	if `length' > 1 & "`by'" != "" & "`over'" != "" {	
+		di as error "If more than one variable is specified, choose either {bf:by()} or {bf:over()}, not both."
 		exit
 	}
 	
@@ -126,11 +130,29 @@ preserve
 		forval i = 1/`length' {
 			replace _var = "`lab`i''" if _temp==`i'
 		}
+
+		cap label drop _spider_over_lab
+		forval i = 1/`length' {
+			if `i' == 1 {
+				label define _spider_over_lab `i' "`lab`i''", replace
+			}
+			else {
+				label define _spider_over_lab `i' "`lab`i''", add
+			}
+		}
+		label values _temp _spider_over_lab
+
+		if "`by'" == "" {
+			sort _var _id
+			drop _temp _id
+			local by _var
+		}
+		else {
+			sort `by' _id
+			drop _var _id
+			local over _temp
+		}
 		
-		sort _var _id
-		drop _temp _id
-		
-		local by _var
 		local varlist _val
 	}
 
@@ -191,10 +213,8 @@ preserve
 		}	
 	}
 
-	if `length'==1 {
-		fillin `by' `over'  // rectanguarlize
-		drop _fillin
-	}	
+	fillin `by' `over'  // rectanguarlize all series-spoke combinations
+	drop _fillin
 	
 	foreach x of local varlist {
 		recode `x' (.=0)  // fill the series
@@ -207,7 +227,6 @@ preserve
 	collapse (`stat') `varlist' `myweight', by(`by' `over')
 
 	
-
 	/////////////////////
 	// set the scales  //  
 	/////////////////////
@@ -230,6 +249,7 @@ preserve
 		
 		local norm1 = floor(`varmin' - `disp')
 		local norm2 = ceil(`varmax' + `disp')
+
 	}
 	
 
@@ -238,7 +258,14 @@ preserve
 	replace `varlist' = ((`varlist' - `norm1') / (`norm2' - `norm1')) * 100
 
 
-	sort `over' `by'  
+	if "`sort'" != "" {
+		tempvar _sortval
+		bysort `by': egen `_sortval' = max(cond(`over' == 1, `varlist', .))
+		sort `over' `_sortval'
+	}
+	else {
+		sort `over' `by'
+	}
 	bysort `over': gen _seq = _n - 1
 	
 	levelsof `by'
@@ -263,7 +290,7 @@ preserve
 		gen double x = `varlist' * cos(angle)	
 		gen double y = `varlist' * sin(angle)	
 
-		sort _over _by 
+		sort _over _seq 
 		
 		if "`smooth'" != "" {
 			levelsof `over', local(lvls)
@@ -276,8 +303,8 @@ preserve
 			}		
 		}
 	
-	
-	
+
+
 	///////////////
 	//   grids   //
 	///////////////
@@ -287,12 +314,12 @@ preserve
 	if "`gwidth'" 	== "" local gwidth 0.1
 	if "`gpattern'" == "" local gpattern solid
 	
-	
+
 	if "`range'"== "" {
 		
 		local gap = (`norm2' - `norm1') / (`cuts' - 1)
 	
-		if ceil(`gap') > _N 	set obs `=ceil(`gap') + 1'
+		if `cuts' > _N  set obs `cuts'
 
 		numlist "`norm1'(`gap')`norm2'"
 		local pnum1 = "`r(numlist)'"
@@ -300,6 +327,8 @@ preserve
 	}
 
 
+
+	
 	
 	local rogrid = `rotate' + 90
 	
@@ -420,8 +449,9 @@ preserve
 	
 		replace markerx   = (`y' + `displacelab') * cos(angle) in `i'
 		replace markery   = (`y' + `displacelab') * sin(angle) in `i'	
-	
-		local varn : label `by' `i'
+
+		local byval = `by'[`i']
+		local varn : label `by' `byval'
 		replace markerlab = "`varn'" in `i'
 	}	
 	
@@ -435,13 +465,20 @@ preserve
 		
 		
 	forval i = 1/`byitems' {
-			if "`rotatelabel'" != "" {
-				sum   angle in `i', meanonly
-				local angle = (r(mean)  * (180 / _pi)) - 90
-			} 
-	
-		local labs `labs' (scatter markery markerx in `i', mc(none) mlab(`labval') mlabpos(0) mlabcolor(`slabcolor') mlabangle(`angle')  mlabsize(`slabsize'))  
-		  
+		local myangle = 0
+
+		if "`rotatelab'" != "" {
+			sum angle in `i', meanonly
+			local myangle = ((r(mean) * (180 / _pi)) - 90) + `rotatelab'
+			local myangle = mod(`myangle', 360)
+
+			// Keep text upright on the left half of the plot.
+			if `myangle' > 90 & `myangle' < 270 {
+				local myangle = `myangle' - 180
+			}
+		}
+
+		local labs `labs' (scatter markery markerx in `i', mc(none) mlab(`labval') mlabpos(0) mlabcolor(`slabcolor') mlabangle(`myangle')  mlabsize(`slabsize'))
 	}
 		
 	/////////////////

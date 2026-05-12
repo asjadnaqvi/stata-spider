@@ -9,8 +9,8 @@
 
 
 
-# spider v1.54
-(17 Dec 2025)
+# spider v1.6
+(12 May 2026)
 
 This package provides the ability to draw spiders Stata. It is based on the [Spider plots](https://medium.com/the-stata-guide/stata-graphs-spider-plots-613808b51f73) guide on Medium
 
@@ -25,7 +25,7 @@ The SSC version (**v1.53**):
 ssc install spider, replace
 ```
 
-Or it can be installed from GitHub (**v1.54**):
+Or it can be installed from GitHub (**v1.6**):
 
 ```stata
 net install spider, from("https://raw.githubusercontent.com/asjadnaqvi/stata-spider/main/installation/") replace
@@ -66,14 +66,14 @@ The syntax for the latest version is as follows:
 
 ```stata
 spider var [if] [in] [weight], 
-                [ by(var) over(var) alpha(num 0-100) rotate(num) smooth(num 0-1) palette(str)
-                  range(numlist) cuts(num) lwidth(str) lpattern(list) msymbol(list) rotatelabel
-                  format(fmt) wrap(num) msize(str) mlwidth(str) displacelab(num) displacespike(num) grid  
-                  gcolor(str) gwidth(str) gpattern(str) glabsize(str) glabcolor(str) glabangle(str) glabopsition(str) 
-                  rline(numlist) rlinecolor(str) rlinewidth(str) rlinepattern(str)
-                  scolor(str) swidth(str) slabsize(str) slabcolor(str)
-                  nolegend legpositon(num) legpositon(num) legcolumns(num) legsize(num) xsize(num) ysize(num)
-                  stat(mean|sum) pad(num) * ]
+								[ by(var) over(var) alpha(num 0-100) rotate(num) smooth(num 0-1) palette(str) flip
+									range(numlist) cuts(num) lwidth(str) lpattern(list) msymbol(list) rotatelabel
+									format(fmt) wrap(num) msize(str) mlwidth(str) displacelab(num) displacespike(num) grid
+									gcolor(str) gwidth(str) gpattern(str) glabsize(str) glabcolor(str) glabangle(str) glabposition(str)
+									rline(numlist) rlinecolor(str) rlinewidth(str) rlinepattern(str)
+									scolor(str) swidth(str) slabsize(str) slabcolor(str)
+									nolegend legposition(num) legcolumns(num) legsize(num) legoptions(str) xsize(num) ysize(num)
+									stat(mean|sum) unique pad(num) n(num) sort * ]
 ```
 
 See the help file `help spider` for details.
@@ -152,7 +152,7 @@ spider index, by(policy) over(region) alpha(0) rot(30)
 <img src="/figures/spider5.png" width="100%">
 
 ```stata
-spider index, by(policy) over(region) alpha(0) rot(30) rotatelab
+spider index, by(policy) over(region) alpha(0) rot(30) rotatelab(0)
 ```
 
 <img src="/figures/spider5_1.png" width="100%">
@@ -204,7 +204,7 @@ spider index, by(policy) over(region) ra(10(10)80) smooth(0.1) gc(eltblue) gw(0.
 <img src="/figures/spider9_2.png" width="100%">
 
 ```stata
-spider index, by(policy) over(region) ra(10(10)80) smooth(0.1) gc(eltblue) gw(0.05) sc(eltblue) sw(0.3) displacelab(20) displacespike(10) rotatelab rot(30) format(%6.0f)
+spider index, by(policy) over(region) ra(10(10)80) smooth(0.1) gc(eltblue) gw(0.05) sc(eltblue) sw(0.3) displacelab(20) displacespike(10) rotatelab(0) rot(30) format(%6.0f)
 ```
 
 <img src="/figures/spider9_3.png" width="100%">
@@ -356,7 +356,7 @@ lab var greetingcards "Greeting cards"
 lab var eveningout "Evening out"
 lab var giftcards "Gift cards"
 
-spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4) palette(w3 default, select(1 4)) rotatelab ///
+spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4) palette(w3 default, select(1 4)) rotatelab(0) ///
 	legcol(3) legsize(3) msize(0.15) sc(black) ccolor(gs13) range(0 60) cuts(7) format(%5.0f) displacelab(15) slabsize(2) wrap(5) ///
 	title("{fontface Merriweather Bold:♥ Candy crush ♥}", size(7) color(cranberry))  ///
 	subtitle("(Percentage positive respones by spending category)", size(2)) ///
@@ -370,7 +370,7 @@ spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4
 Here is another version which showcases v1.5 updates:
 
 ```stata
-spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4) palette(w3 default, select(1 4)) rotatelab  rline(25 50)  ///
+spider spendingcelebrating- giftcards, over(gender) smooth(0.2) alpha(15) lw(0.4) palette(w3 default, select(1 4)) rotatelab(0)  rline(25 50)  ///
 	legcol(3) legsize(3) msize(0.15) sc(black) gcolor(gs13)  format(%5.0f) displacelab(20) glabsize(2) wrap(5) ///
 	plotregion(margin(l-20 r-20)) ra(0(10)60) grid lp(solid dash) ///
 	title("{fontface Merriweather Bold:Valentines day spending by gender}", size(5) color(cranberry))  ///
@@ -385,6 +385,12 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-spider/issues) to rep
 
 ## Change log
 
+
+**v1.6 (12 May 2026)**
+- `rotatelab()` new requires an angle to be specified `rotatelab(#)`, e.g. `rotatelab(0)` rotates the labels to be perpendicular to the spikes, versus `rotatelab(90)` is parallel to the spikes.
+- Wide-form handling was improved: when multiple variables are passed, the command now builds correct labels for `over()` and enforces clearer `by()`/`over()` combinations.
+- `sort` can be used to sort the draw order on the first variable.
+- Performance and stability improvements.
 
 **v1.54 (17 Dec 2025)**
 - Fixed a zero radius issue being raised by `graphfunctions` that now have stricter checks.
